@@ -1,6 +1,7 @@
 //package org.pim.psu.studenttest;
 //package ORG
 
+import javax.swing.*;
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,20 +21,20 @@ public class Student extends Applet {
     private final int TEST = 0, EDITOR = 1;
 
     //AWT elements
-    private Label nameLabel, groupLabel, modeLabel, questionLabel,
-            answerLabel = new Label(),
-            noteLabel = new Label(),
-            correctanswerLabel = new Label();
-    private TextField name = new TextField(),
-            group = new TextField(),
-            answerTextField[];
+    private JLabel nameLabel, groupLabel, modeLabel, questionLabel,
+            answerLabel = new JLabel(),
+            noteLabel = new JLabel(),
+            correctanswerLabel = new JLabel();
+    private JTextField name = new JTextField();
+    private JTextField group = new JTextField();
+    private TextField[] answerTextField;
     private Choice modeChoice = new Choice();
-    private Button prevButton, nextButton, resultButton, testButton,
+    private JButton prevButton, nextButton, resultButton, testButton,
             addButton, deleteButton, editButton,
             newButton, openButton, saveButton,
             okButton, cancelButton, incButton, decButton;
-    private TextArea greetingTextArea, questionTextArea;
-    private Panel userPanel, modePanel, filePanel, greetingPanel,
+    private JTextArea greetingTextArea, questionTextArea;
+    private JPanel userPanel, modePanel, filePanel, greetingPanel,
             answersPanel, notePanel, actionsPanel, buttonsPanel,
             incdecPanel;
     private CheckboxGroup checkboxGroup;
@@ -174,34 +175,34 @@ public class Student extends Applet {
                 }
             }
         };
-        testButton = new Button(resourceBundle.getString("button_test"));
+        testButton = new JButton(resourceBundle.getString("button_test"));
         testButton.setActionCommand("test");
         testButton.addActionListener(al);
-        prevButton = new Button(resourceBundle.getString("button_prev"));
+        prevButton = new JButton(resourceBundle.getString("button_prev"));
         prevButton.setActionCommand("prev");
         prevButton.addActionListener(al);
-        nextButton = new Button(resourceBundle.getString("button_next"));
+        nextButton = new JButton(resourceBundle.getString("button_next"));
         nextButton.setActionCommand("next");
         nextButton.addActionListener(al);
-        resultButton = new Button(resourceBundle.getString("button_result"));
+        resultButton = new JButton(resourceBundle.getString("button_result"));
         resultButton.setActionCommand("result");
         resultButton.addActionListener(al);
-        greetingTextArea = new TextArea();
+        greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
-        answersPanel = new Panel();
+        answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
-        buttonsPanel = new Panel();
+        buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2));
         buttonsPanel.add(prevButton);
         buttonsPanel.add(nextButton);
-        notePanel = new Panel();
+        notePanel = new JPanel();
         notePanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1.0;
         notePanel.add(noteLabel, c);
 
-        questionTextArea = new TextArea();
+        questionTextArea = new JTextArea();
         questionTextArea.setEditable(false);
         questionTextArea.setBackground(Color.white);
     }
@@ -211,18 +212,18 @@ public class Student extends Applet {
         initCommonAWTComponents();
         GridBagConstraints c = new GridBagConstraints();
         //Components
-        nameLabel = new Label(resourceBundle.getString("label_name"));
-        groupLabel = new Label(resourceBundle.getString("label_group"));
+        nameLabel = new JLabel(resourceBundle.getString("label_name"));
+        groupLabel = new JLabel(resourceBundle.getString("label_group"));
         name.setBackground(Color.white);
         group.setBackground(Color.white);
-        modeLabel = new Label(resourceBundle.getString("label_mode"));
+        modeLabel = new JLabel(resourceBundle.getString("label_mode"));
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_learning"), LEARNING);
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_testing"), TESTING);
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_strong"), STRONG);
         greetingTextArea.setText(resourceBundle.getString("textarea_greeting_test"));
         answerTextField = new TextField[1];
         //Panels
-        userPanel = new Panel();
+        userPanel = new JPanel();
         userPanel.setLayout(new GridBagLayout());
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -236,7 +237,7 @@ public class Student extends Applet {
         userPanel.add(name, c);
         c.gridwidth = GridBagConstraints.REMAINDER;
         userPanel.add(group, c);
-        modePanel = new Panel();
+        modePanel = new JPanel();
         modePanel.setLayout(new GridBagLayout());
         c.weightx = 0.0;
         c.fill = GridBagConstraints.NONE;
@@ -248,7 +249,7 @@ public class Student extends Applet {
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(2, 0, 5, 2);
         modePanel.add(modeChoice, c);
-        greetingPanel = new Panel();
+        greetingPanel = new JPanel();
         greetingPanel.setLayout(new GridBagLayout());
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
@@ -321,48 +322,48 @@ public class Student extends Applet {
         };
         greetingTextArea.setText(resourceBundle.getString("textarea_greeting_edit"));
         //Buttons
-        newButton = new Button(resourceBundle.getString("button_new"));
+        newButton = new JButton(resourceBundle.getString("button_new"));
         newButton.setActionCommand("new");
         newButton.addActionListener(al);
-        openButton = new Button(resourceBundle.getString("button_open"));
+        openButton = new JButton(resourceBundle.getString("button_open"));
         openButton.setActionCommand("open");
         openButton.addActionListener(al);
-        saveButton = new Button(resourceBundle.getString("button_save"));
+        saveButton = new JButton(resourceBundle.getString("button_save"));
         saveButton.setActionCommand("save");
         saveButton.addActionListener(al);
-        addButton = new Button(resourceBundle.getString("button_add"));
+        addButton = new JButton(resourceBundle.getString("button_add"));
         addButton.setActionCommand("add");
         addButton.addActionListener(al);
-        deleteButton = new Button(resourceBundle.getString("button_delete"));
+        deleteButton = new JButton(resourceBundle.getString("button_delete"));
         deleteButton.setActionCommand("delete");
         deleteButton.addActionListener(al);
-        editButton = new Button(resourceBundle.getString("button_edit"));
+        editButton = new JButton(resourceBundle.getString("button_edit"));
         editButton.setActionCommand("edit");
         editButton.addActionListener(al);
-        okButton = new Button(resourceBundle.getString("button_ok"));
+        okButton = new JButton(resourceBundle.getString("button_ok"));
         okButton.setActionCommand("ok");
         okButton.addActionListener(al);
-        cancelButton = new Button(resourceBundle.getString("button_cancel"));
+        cancelButton = new JButton(resourceBundle.getString("button_cancel"));
         cancelButton.setActionCommand("cancel");
         cancelButton.addActionListener(al);
-        incButton = new Button(" + ");
+        incButton = new JButton(" + ");
         incButton.setActionCommand("increase");
         incButton.addActionListener(al);
-        decButton = new Button(" - ");
+        decButton = new JButton(" - ");
         decButton.setActionCommand("decrease");
         decButton.addActionListener(al);
         //Panels
-        filePanel = new Panel();
+        filePanel = new JPanel();
         filePanel.setLayout(new GridLayout(1, 3, 2, 2));
         filePanel.add(newButton);
         filePanel.add(openButton);
         filePanel.add(saveButton);
-        actionsPanel = new Panel();
+        actionsPanel = new JPanel();
         actionsPanel.setLayout(new GridLayout(1, 3, 2, 2));
         actionsPanel.add(addButton);
         actionsPanel.add(deleteButton);
         actionsPanel.add(editButton);
-        incdecPanel = new Panel();
+        incdecPanel = new JPanel();
         incdecPanel.setLayout(new GridLayout(1, 2, 2, 2));
         incdecPanel.add(incButton);
         incdecPanel.add(decButton);
@@ -680,7 +681,7 @@ public class Student extends Applet {
         c.insets = new Insets(2, 2, 2, 2);
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
-        questionLabel = new Label(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
+        questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
         answersPanel.add(questionLabel, c);
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
@@ -870,7 +871,7 @@ public class Student extends Applet {
         c.insets = new Insets(2, 2, 2, 2);
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
-        questionLabel = new Label(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
+        questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
         answersPanel.add(questionLabel, c);
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
