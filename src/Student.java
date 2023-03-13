@@ -37,8 +37,10 @@ public class Student extends Applet {
     private JPanel userPanel, modePanel, filePanel, greetingPanel,
             answersPanel, notePanel, actionsPanel, buttonsPanel,
             incdecPanel;
-    private CheckboxGroup checkboxGroup;
-    private Checkbox[] checkboxes;
+//    private CheckboxGroup checkboxGroup;
+    private ButtonGroup checkboxGroup;
+//    private Checkbox[] checkboxes;
+    private JRadioButton[] checkboxes;
     private Font font;
 
     //test data
@@ -469,14 +471,14 @@ public class Student extends Applet {
                 break;
             case PROPER:
                 for (int i = 0; i < checkboxes.length; i++)
-                    if (checkboxes[i].getState()) {
+                    if (checkboxes[i].isSelected()) {
                         ((ProperChoiceQuestion) currentquestion).setAnswer(i + 1);
                         break;
                     }
                 break;
             case TOTAL:
                 boolean[] answer = new boolean[checkboxes.length];
-                for (int i = 0; i < checkboxes.length; i++) answer[i] = checkboxes[i].getState();
+                for (int i = 0; i < checkboxes.length; i++) answer[i] = checkboxes[i].isSelected();
                 ((TotalChoiceQuestion) currentquestion).setAnswer(answer);
                 break;
         }
@@ -702,8 +704,8 @@ public class Student extends Applet {
             default:
                 answerLabel.setText(resourceBundle.getString("label_answers") + ":");
                 String[] suggestedanswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
-                checkboxGroup = new CheckboxGroup();
-                checkboxes = new Checkbox[suggestedanswers.length];
+                checkboxGroup = new ButtonGroup();
+                checkboxes = new JRadioButton[suggestedanswers.length];
                 for (int i = 0; i < suggestedanswers.length; i++) {
                     c.weightx = 1.0;
                     c.gridwidth = GridBagConstraints.RELATIVE;
@@ -715,10 +717,11 @@ public class Student extends Applet {
                     c.gridwidth = GridBagConstraints.REMAINDER;
                     switch (getQuestionType(currentquestion)) {
                         case PROPER:
-                            checkboxes[i] = new Checkbox(Integer.toString(i + 1), false, checkboxGroup);
+//                            checkboxes[i] = new JRadioButton(Integer.toString(i + 1), false, checkboxGroup);
+                            checkboxes[i] = new JRadioButton();
                             break;
                         case TOTAL:
-                            checkboxes[i] = new Checkbox(Integer.toString(i + 1), ((TotalChoiceQuestion) currentquestion).getAnswer()[i]);
+                            checkboxes[i] = new JRadioButton(Integer.toString(i + 1), ((TotalChoiceQuestion) currentquestion).getAnswer()[i]);
                             break;
                     }
                     answersPanel.add(checkboxes[i], c);
@@ -727,7 +730,7 @@ public class Student extends Applet {
                     case PROPER:
                         noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_properquestion"));
                         if (((ProperChoiceQuestion) currentquestion).getAnswer() != 0)
-                            checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
+                            checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setSelected(true);
                         break;
                     case TOTAL:
                         noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_totalquestion"));
@@ -846,7 +849,7 @@ public class Student extends Applet {
             case PROPER:
                 int correctanswer = 0;
                 for (int i = 0; i < checkboxes.length; i++)
-                    if (checkboxes[i].getState()) {
+                    if (checkboxes[i].isSelected()) {
                         correctanswer = i + 1;
                         break;
                     }
@@ -854,10 +857,10 @@ public class Student extends Applet {
                 break;
             case TOTAL:
                 int n = 0;
-                for (int i = 0; i < checkboxes.length; i++) if (checkboxes[i].getState()) n++;
+                for (int i = 0; i < checkboxes.length; i++) if (checkboxes[i].isSelected()) n++;
                 int[] correctanswers = new int[n];
                 n = 0;
-                for (int i = 0; i < checkboxes.length; i++) if (checkboxes[i].getState()) correctanswers[n++] = i + 1;
+                for (int i = 0; i < checkboxes.length; i++) if (checkboxes[i].isSelected()) correctanswers[n++] = i + 1;
                 currentquestion = new TotalChoiceQuestion(questionTextArea.getText(), suggestedanswers, correctanswers);
                 break;
         }
@@ -902,8 +905,8 @@ public class Student extends Applet {
                 suggestedanswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
                 decButton.setEnabled(suggestedanswers.length == 1 ? false : true);
                 answerTextField = new TextField[suggestedanswers.length];
-                checkboxGroup = new CheckboxGroup();
-                checkboxes = new Checkbox[suggestedanswers.length];
+                checkboxGroup = new ButtonGroup();
+                checkboxes = new JRadioButton[suggestedanswers.length];
                 for (int i = 0; i < suggestedanswers.length; i++) {
                     c.weightx = 1.0;
                     c.gridwidth = GridBagConstraints.RELATIVE;
@@ -915,10 +918,12 @@ public class Student extends Applet {
                     c.gridwidth = GridBagConstraints.REMAINDER;
                     switch (getQuestionType(currentquestion)) {
                         case PROPER:
-                            checkboxes[i] = new Checkbox(Integer.toString(i + 1), (i + 1 == Integer.parseInt(currentquestion.getCorrectAnswer())), checkboxGroup);
+//                            checkboxes[i] = new Checkbox(Integer.toString(i + 1), (i + 1 == Integer.parseInt(currentquestion.getCorrectAnswer())), checkboxGroup);
+                            checkboxes[i] = new JRadioButton();
                             break;
                         case TOTAL:
-                            checkboxes[i] = new Checkbox(Integer.toString(i + 1), ((TotalChoiceQuestion) currentquestion).getCorrectAnswers()[i]);
+//                            checkboxes[i] = new Checkbox(Integer.toString(i + 1), ((TotalChoiceQuestion) currentquestion).getCorrectAnswers()[i]);
+                            checkboxes[i] = new JRadioButton();
                             break;
                     }
                     checkboxes[i].setEnabled(editable);
@@ -926,7 +931,7 @@ public class Student extends Applet {
                 }
                 if (getQuestionType(currentquestion) == PROPER)
                     if (((ProperChoiceQuestion) currentquestion).getAnswer() != 0)
-                        checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
+                        checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setSelected(true);
                 break;
         }
         answersPanel.validate();
@@ -951,15 +956,17 @@ public class Student extends Applet {
                 answersPanel.add(answerTextField[answerTextField.length - 1], c, answersPanel.getComponentCount() - 1);
                 break;
             default:
-                Checkbox[] newcheckboxes = new Checkbox[checkboxes.length + 1];
+                JRadioButton[] newcheckboxes = new JRadioButton[checkboxes.length + 1];
                 for (int i = 0; i < checkboxes.length; i++) newcheckboxes[i] = checkboxes[i];
                 checkboxes = newcheckboxes;
                 switch (getQuestionType(currentquestion)) {
                     case PROPER:
-                        checkboxes[checkboxes.length - 1] = new Checkbox(Integer.toString(checkboxes.length), false, checkboxGroup);
+//                        checkboxes[checkboxes.length - 1] = new Checkbox(Integer.toString(checkboxes.length), false, checkboxGroup);
+                        checkboxes[checkboxes.length - 1] = new JRadioButton();
                         break;
                     case TOTAL:
-                        checkboxes[checkboxes.length - 1] = new Checkbox(Integer.toString(checkboxes.length), false);
+                      //  checkboxes[checkboxes.length - 1] = new JRadioButton(Integer.toString(checkboxes.length), false);
+                        checkboxes[checkboxes.length - 1] = new JRadioButton();
                         break;
                 }
                 checkboxes[checkboxes.length - 1].setEnabled(true);
@@ -984,11 +991,11 @@ public class Student extends Applet {
                 answersPanel.remove(answerTextField[answerTextField.length - 1]);
                 break;
             default:
-                Checkbox[] newcheckboxes = new Checkbox[checkboxes.length - 1];
+                JRadioButton[] newcheckboxes = new JRadioButton[checkboxes.length - 1];
                 for (int i = 0; i < checkboxes.length - 1; i++) newcheckboxes[i] = checkboxes[i];
                 if (getQuestionType(currentquestion) == PROPER)
-                    if (checkboxes[checkboxes.length - 1].getState())
-                        newcheckboxes[newcheckboxes.length - 1].setState(true);
+                    if (checkboxes[checkboxes.length - 1].isSelected())
+                        newcheckboxes[newcheckboxes.length - 1].setSelected(true);
                 answersPanel.remove(answerTextField[answerTextField.length - 1]);
                 answersPanel.remove(checkboxes[checkboxes.length - 1]);
                 checkboxes = newcheckboxes;
