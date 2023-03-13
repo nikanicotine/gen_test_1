@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Student extends Applet {
     //applet parameters
-    private String testfilename, testfileencoding, propertiesfilename = "studenttest.properties";
+    private String testfilename, testfileencoding, propertiesfilename = "properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode, showcorrect;
 
@@ -106,10 +106,10 @@ public class Student extends Applet {
     private void readResources() {
         switch (language) {
             case RUSSIAN:
-                resourceBundle = ResourceBundle.getBundle("org.pim.psu.studenttest.Resources", new Locale("ru", "RU"));
+                resourceBundle = ResourceBundle.getBundle("Resources", new Locale("ru", "RU"));
                 break;
             case ENGLISH:
-                resourceBundle = ResourceBundle.getBundle("org.pim.psu.studenttest.Resources", new Locale("en", "US"));
+                resourceBundle = ResourceBundle.getBundle("Resources", new Locale("en", "US"));
                 break;
         }
     }
