@@ -8,7 +8,7 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-public class Student extends Applet { //TODO JApplet or JFrame or ???
+public class Professor extends Applet { //TODO JApplet or JFrame or ???
     //applet parameters
     private String testfilename, testfileencoding, propertiesfilename = "Properties";
     private int testmode, language, fontsize, mode;
@@ -51,58 +51,58 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
 
     public static void main(String[] args) {
         int width = 400, height = 500;
-        Dialog Student = new Dialog(new Frame(), "Test");
-        Student test = new Student();
-        Student.addWindowListener(new WindowAdapter() {
+        Dialog professor = new Dialog(new Frame(), "Question redactor");
+        Professor test = new Professor();
+        professor.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
                 System.exit(0);
             }
         });
-        Student.setLayout(new GridBagLayout());
+        professor.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
-        Student.add(test, c);
-        Student.pack();
+        professor.add(test, c);
+        professor.pack();
 //        test.initEditor();
-        test.initTest();
-        Insets di = Student.getInsets();
-        Student.setSize(di.left + width + di.right, di.top + height + di.bottom);
-        Dimension ds = Student.getToolkit().getScreenSize(), dd = Student.getSize();
-        Student.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
-        Student.show();
+        test.initEditor();
+        Insets di = professor.getInsets();
+        professor.setSize(di.left + width + di.right, di.top + height + di.bottom);
+        Dimension ds = professor.getToolkit().getScreenSize(), dd = professor.getSize();
+        professor.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
+        professor.show();
     }
 
-    public void init() {
-        initTest();
-    }
-
-    public void initTest() {
-        mode = TEST;
-        try {
-            readParameters((new URL(getCodeBase(), propertiesfilename)).openStream());
-            readTestFile((new URL(getCodeBase(), testfilename)).openStream());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-        initTestAWTComponents();
-        newTest();
-    }
-
-//    public void initEditor() {
-//        mode = EDITOR;
+//    public void init() {
+//        initTest();
+//    }
+//
+//    public void initTest() {
+//        mode = TEST;
 //        try {
-//            readParameters(new FileInputStream(propertiesfilename));
+//            readParameters((new URL(getCodeBase(), propertiesfilename)).openStream());
+//            readTestFile((new URL(getCodeBase(), testfilename)).openStream());
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            return;
 //        }
-//        initEditorAWTComponents();
-//        newEditor();
+//        initTestAWTComponents();
+//        newTest();
 //    }
+
+    public void initEditor() {
+        mode = EDITOR;
+        try {
+            readParameters(new FileInputStream(propertiesfilename));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        initEditorAWTComponents();
+        newEditor();
+    }
 
     private void readResources() {
         switch (language) {
@@ -206,185 +206,185 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
         questionTextArea.setBackground(Color.white);
     }
 
-    private void initTestAWTComponents() {
-        readResources();
-        initCommonAWTComponents();
-        GridBagConstraints c = new GridBagConstraints();
-        //Components
-        nameLabel = new JLabel(resourceBundle.getString("label_name"));
-        groupLabel = new JLabel(resourceBundle.getString("label_group"));
-        name.setBackground(Color.white);
-        group.setBackground(Color.white);
-        modeLabel = new JLabel(resourceBundle.getString("label_mode"));
-        modeChoice.insert(" " + resourceBundle.getString("textfield_mode_learning"), LEARNING);
-        modeChoice.insert(" " + resourceBundle.getString("textfield_mode_testing"), TESTING);
-        modeChoice.insert(" " + resourceBundle.getString("textfield_mode_strong"), STRONG);
-        greetingTextArea.setText(resourceBundle.getString("textarea_greeting_test"));
-        answerTextField = new TextField[1];
-        //Panels
-        userPanel = new JPanel();
-        userPanel.setLayout(new GridBagLayout());
-        c.weightx = 1.0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(2, 2, 2, 2);
-        c.anchor = GridBagConstraints.WEST;
-        c.gridwidth = GridBagConstraints.RELATIVE;
-        userPanel.add(nameLabel, c);
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        userPanel.add(groupLabel, c);
-        c.gridwidth = GridBagConstraints.RELATIVE;
-        userPanel.add(name, c);
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        userPanel.add(group, c);
-        modePanel = new JPanel();
-        modePanel.setLayout(new GridBagLayout());
-        c.weightx = 0.0;
-        c.fill = GridBagConstraints.NONE;
-        c.gridwidth = GridBagConstraints.RELATIVE;
-        c.insets = new Insets(2, 2, 5, 0);
-        modePanel.add(modeLabel, c);
-        c.weightx = 1.0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.insets = new Insets(2, 0, 5, 2);
-        modePanel.add(modeChoice, c);
-        greetingPanel = new JPanel();
-        greetingPanel.setLayout(new GridBagLayout());
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.weightx = 1.0;
-        c.weighty = 1.0;
-        c.insets = new Insets(5, 5, 0, 5);
-        c.fill = GridBagConstraints.BOTH;
-        greetingPanel.add(greetingTextArea, c);
-        c = new GridBagConstraints();
-        c.ipadx = 10;
-        c.insets = new Insets(5, 0, 5, 0);
-        greetingPanel.add(testButton, c);
-        //Window
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.weightx = 1.0;
-        c.fill = GridBagConstraints.HORIZONTAL;
-        this.add(userPanel, c);
-        this.add(modePanel, c);
-    }
-
-//    private void initEditorAWTComponents() {
+//    private void initTestAWTComponents() {
 //        readResources();
 //        initCommonAWTComponents();
-//        ActionListener al = new ActionListener() {
-//            public synchronized void actionPerformed(ActionEvent e) {
-//                String actionCommand = e.getActionCommand();
-//                while (true) {
-//                    if (actionCommand.equals("open")) {
-//                        openTest();
-//                        break;
-//                    }
-//                    if (actionCommand.equals("save")) {
-//                        saveTest();
-//                        break;
-//                    }
-//                    if (actionCommand.equals("new")) {
-//                        newEditor();
-//                        break;
-//                    }
-//                    if (actionCommand.equals("add")) {
-//                        addQuestion();
-//                        break;
-//                    }
-//                    if (actionCommand.equals("delete")) {
-//                        deleteQuestion();
-//                        break;
-//                    }
-//                    if (actionCommand.equals("edit")) {
-//                        editQuestion();
-//                        break;
-//                    }
-//                    if (actionCommand.equals("ok")) {
-//                        updateQuestion(true);
-//                        break;
-//                    }
-//                    if (actionCommand.equals("cancel")) {
-//                        updateQuestion(false);
-//                        break;
-//                    }
-//                    if (actionCommand.equals("increase")) {
-//                        addAnswer();
-//                        break;
-//                    }
-//                    if (actionCommand.equals("decrease")) {
-//                        deleteAnswer();
-//                        break;
-//                    }
-//                    break;
-//                }
-//            }
-//        };
-//        greetingTextArea.setText(resourceBundle.getString("textarea_greeting_edit"));
-//        //Buttons
-//        newButton = new JButton(resourceBundle.getString("button_new"));
-//        newButton.setActionCommand("new");
-//        newButton.addActionListener(al);
-//        openButton = new JButton(resourceBundle.getString("button_open"));
-//        openButton.setActionCommand("open");
-//        openButton.addActionListener(al);
-//        saveButton = new JButton(resourceBundle.getString("button_save"));
-//        saveButton.setActionCommand("save");
-//        saveButton.addActionListener(al);
-//        addButton = new JButton(resourceBundle.getString("button_add"));
-//        addButton.setActionCommand("add");
-//        addButton.addActionListener(al);
-//        deleteButton = new JButton(resourceBundle.getString("button_delete"));
-//        deleteButton.setActionCommand("delete");
-//        deleteButton.addActionListener(al);
-//        editButton = new JButton(resourceBundle.getString("button_edit"));
-//        editButton.setActionCommand("edit");
-//        editButton.addActionListener(al);
-//        okButton = new JButton(resourceBundle.getString("button_ok"));
-//        okButton.setActionCommand("ok");
-//        okButton.addActionListener(al);
-//        cancelButton = new JButton(resourceBundle.getString("button_cancel"));
-//        cancelButton.setActionCommand("cancel");
-//        cancelButton.addActionListener(al);
-//        incButton = new JButton(" + ");
-//        incButton.setActionCommand("increase");
-//        incButton.addActionListener(al);
-//        decButton = new JButton(" - ");
-//        decButton.setActionCommand("decrease");
-//        decButton.addActionListener(al);
-//        //Panels
-//        filePanel = new JPanel();
-//        filePanel.setLayout(new GridLayout(1, 3, 2, 2));
-//        filePanel.add(newButton);
-//        filePanel.add(openButton);
-//        filePanel.add(saveButton);
-//        actionsPanel = new JPanel();
-//        actionsPanel.setLayout(new GridLayout(1, 3, 2, 2));
-//        actionsPanel.add(addButton);
-//        actionsPanel.add(deleteButton);
-//        actionsPanel.add(editButton);
-//        incdecPanel = new JPanel();
-//        incdecPanel.setLayout(new GridLayout(1, 2, 2, 2));
-//        incdecPanel.add(incButton);
-//        incdecPanel.add(decButton);
 //        GridBagConstraints c = new GridBagConstraints();
+//        //Components
+//        nameLabel = new JLabel(resourceBundle.getString("label_name"));
+//        groupLabel = new JLabel(resourceBundle.getString("label_group"));
+//        name.setBackground(Color.white);
+//        group.setBackground(Color.white);
+//        modeLabel = new JLabel(resourceBundle.getString("label_mode"));
+//        modeChoice.insert(" " + resourceBundle.getString("textfield_mode_learning"), LEARNING);
+//        modeChoice.insert(" " + resourceBundle.getString("textfield_mode_testing"), TESTING);
+//        modeChoice.insert(" " + resourceBundle.getString("textfield_mode_strong"), STRONG);
+//        greetingTextArea.setText(resourceBundle.getString("textarea_greeting_test"));
+//        answerTextField = new TextField[1];
+//        //Panels
+//        userPanel = new JPanel();
+//        userPanel.setLayout(new GridBagLayout());
+//        c.weightx = 1.0;
+//        c.fill = GridBagConstraints.HORIZONTAL;
 //        c.insets = new Insets(2, 2, 2, 2);
+//        c.anchor = GridBagConstraints.WEST;
+//        c.gridwidth = GridBagConstraints.RELATIVE;
+//        userPanel.add(nameLabel, c);
+//        c.gridwidth = GridBagConstraints.REMAINDER;
+//        userPanel.add(groupLabel, c);
+//        c.gridwidth = GridBagConstraints.RELATIVE;
+//        userPanel.add(name, c);
+//        c.gridwidth = GridBagConstraints.REMAINDER;
+//        userPanel.add(group, c);
+//        modePanel = new JPanel();
+//        modePanel.setLayout(new GridBagLayout());
+//        c.weightx = 0.0;
+//        c.fill = GridBagConstraints.NONE;
+//        c.gridwidth = GridBagConstraints.RELATIVE;
+//        c.insets = new Insets(2, 2, 5, 0);
+//        modePanel.add(modeLabel, c);
+//        c.weightx = 1.0;
+//        c.fill = GridBagConstraints.HORIZONTAL;
+//        c.gridwidth = GridBagConstraints.REMAINDER;
+//        c.insets = new Insets(2, 0, 5, 2);
+//        modePanel.add(modeChoice, c);
+//        greetingPanel = new JPanel();
+//        greetingPanel.setLayout(new GridBagLayout());
+//        c.gridwidth = GridBagConstraints.REMAINDER;
+//        c.weightx = 1.0;
+//        c.weighty = 1.0;
+//        c.insets = new Insets(5, 5, 0, 5);
+//        c.fill = GridBagConstraints.BOTH;
+//        greetingPanel.add(greetingTextArea, c);
+//        c = new GridBagConstraints();
+//        c.ipadx = 10;
+//        c.insets = new Insets(5, 0, 5, 0);
+//        greetingPanel.add(testButton, c);
+//        //Window
 //        c.gridwidth = GridBagConstraints.REMAINDER;
 //        c.weightx = 1.0;
 //        c.fill = GridBagConstraints.HORIZONTAL;
-//        this.add(filePanel, c);
-//        c.weighty = 1.0;
-//        c.fill = GridBagConstraints.BOTH;
-//        this.add(answersPanel, c);
-//        c.weighty = 0.0;
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        this.add(actionsPanel, c);
-//        noteLabel.setText(resourceBundle.getString("label_note_incdecaction"));
-//        c.gridwidth = GridBagConstraints.RELATIVE;
-//        notePanel.add(noteLabel, c);
-//        c.anchor = GridBagConstraints.EAST;
-//        c.fill = GridBagConstraints.NONE;
-//        notePanel.add(incdecPanel, c);
+//        this.add(userPanel, c);
+//        this.add(modePanel, c);
 //    }
+
+    private void initEditorAWTComponents() {
+        readResources();
+        initCommonAWTComponents();
+        ActionListener al = new ActionListener() {
+            public synchronized void actionPerformed(ActionEvent e) {
+                String actionCommand = e.getActionCommand();
+                while (true) {
+                    if (actionCommand.equals("open")) {
+                        openTest();
+                        break;
+                    }
+                    if (actionCommand.equals("save")) {
+                        saveTest();
+                        break;
+                    }
+                    if (actionCommand.equals("new")) {
+                        newEditor();
+                        break;
+                    }
+                    if (actionCommand.equals("add")) {
+                        addQuestion();
+                        break;
+                    }
+                    if (actionCommand.equals("delete")) {
+                        deleteQuestion();
+                        break;
+                    }
+                    if (actionCommand.equals("edit")) {
+                        editQuestion();
+                        break;
+                    }
+                    if (actionCommand.equals("ok")) {
+                        updateQuestion(true);
+                        break;
+                    }
+                    if (actionCommand.equals("cancel")) {
+                        updateQuestion(false);
+                        break;
+                    }
+                    if (actionCommand.equals("increase")) {
+                        addAnswer();
+                        break;
+                    }
+                    if (actionCommand.equals("decrease")) {
+                        deleteAnswer();
+                        break;
+                    }
+                    break;
+                }
+            }
+        };
+        greetingTextArea.setText(resourceBundle.getString("textarea_greeting_edit"));
+        //Buttons
+        newButton = new JButton(resourceBundle.getString("button_new"));
+        newButton.setActionCommand("new");
+        newButton.addActionListener(al);
+        openButton = new JButton(resourceBundle.getString("button_open"));
+        openButton.setActionCommand("open");
+        openButton.addActionListener(al);
+        saveButton = new JButton(resourceBundle.getString("button_save"));
+        saveButton.setActionCommand("save");
+        saveButton.addActionListener(al);
+        addButton = new JButton(resourceBundle.getString("button_add"));
+        addButton.setActionCommand("add");
+        addButton.addActionListener(al);
+        deleteButton = new JButton(resourceBundle.getString("button_delete"));
+        deleteButton.setActionCommand("delete");
+        deleteButton.addActionListener(al);
+        editButton = new JButton(resourceBundle.getString("button_edit"));
+        editButton.setActionCommand("edit");
+        editButton.addActionListener(al);
+        okButton = new JButton(resourceBundle.getString("button_ok"));
+        okButton.setActionCommand("ok");
+        okButton.addActionListener(al);
+        cancelButton = new JButton(resourceBundle.getString("button_cancel"));
+        cancelButton.setActionCommand("cancel");
+        cancelButton.addActionListener(al);
+        incButton = new JButton(" + ");
+        incButton.setActionCommand("increase");
+        incButton.addActionListener(al);
+        decButton = new JButton(" - ");
+        decButton.setActionCommand("decrease");
+        decButton.addActionListener(al);
+        //Panels
+        filePanel = new JPanel();
+        filePanel.setLayout(new GridLayout(1, 3, 2, 2));
+        filePanel.add(newButton);
+        filePanel.add(openButton);
+        filePanel.add(saveButton);
+        actionsPanel = new JPanel();
+        actionsPanel.setLayout(new GridLayout(1, 3, 2, 2));
+        actionsPanel.add(addButton);
+        actionsPanel.add(deleteButton);
+        actionsPanel.add(editButton);
+        incdecPanel = new JPanel();
+        incdecPanel.setLayout(new GridLayout(1, 2, 2, 2));
+        incdecPanel.add(incButton);
+        incdecPanel.add(decButton);
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(2, 2, 2, 2);
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.weightx = 1.0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        this.add(filePanel, c);
+        c.weighty = 1.0;
+        c.fill = GridBagConstraints.BOTH;
+        this.add(answersPanel, c);
+        c.weighty = 0.0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        this.add(actionsPanel, c);
+        noteLabel.setText(resourceBundle.getString("label_note_incdecaction"));
+        c.gridwidth = GridBagConstraints.RELATIVE;
+        notePanel.add(noteLabel, c);
+        c.anchor = GridBagConstraints.EAST;
+        c.fill = GridBagConstraints.NONE;
+        notePanel.add(incdecPanel, c);
+    }
 
     private void prevButtonPushed() {
         if (mode == TEST) obtainCurrentAnswer();
@@ -531,27 +531,27 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
         }
     }
 
-//    private void writeTestFile(FileOutputStream os) {
-//        try {
-//            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, testfileencoding));
-//            Question currentquestion;
-//            String[] suggestedAnswers;
-//            for (int i = 0, n = questionset.size(); i < n; i++) {
-//                currentquestion = (Question) questionset.elementAt(i);
-//                bw.write("?" + currentquestion.getQuestion() + "\r\n");
-//                if (currentquestion instanceof ChoiceQuestion) {
-//                    suggestedAnswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
-//                    for (int j = 0; j < suggestedAnswers.length; j++) bw.write("#" + suggestedAnswers[j] + "\r\n");
-//                }
-//                bw.write("!" + currentquestion.getCorrectAnswer() + "\r\n");
-//            }
-//            bw.flush();
-//            bw.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return;
-//        }
-//    }
+    private void writeTestFile(FileOutputStream os) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, testfileencoding));
+            Question currentquestion;
+            String[] suggestedAnswers;
+            for (int i = 0, n = questionset.size(); i < n; i++) {
+                currentquestion = (Question) questionset.elementAt(i);
+                bw.write("?" + currentquestion.getQuestion() + "\r\n");
+                if (currentquestion instanceof ChoiceQuestion) {
+                    suggestedAnswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
+                    for (int j = 0; j < suggestedAnswers.length; j++) bw.write("#" + suggestedAnswers[j] + "\r\n");
+                }
+                bw.write("!" + currentquestion.getCorrectAnswer() + "\r\n");
+            }
+            bw.flush();
+            bw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+    }
 
     private void newTest() {
         if (questionsmixer) questionsorder = Utils.randomize(questionset.size());
@@ -600,67 +600,67 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
         this.validate();
     }
 
-//    private void newEditor() {
-//        questionset = new Vector();
-//        current = 0;
-//        if (this.isAncestorOf(buttonsPanel)) this.remove(buttonsPanel);
-//        answersPanel.removeAll();
-//        GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(2, 2, 2, 2);
-//        c.gridwidth = GridBagConstraints.REMAINDER;
-//        c.weightx = 1.0;
-//        c.weighty = 1.0;
-//        c.fill = GridBagConstraints.VERTICAL;
-//        answersPanel.add(greetingTextArea, c);
-//        c.weighty = 0.0;
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        this.add(buttonsPanel, c);
-//        saveButton.setEnabled(false);
-//        deleteButton.setEnabled(false);
-//        editButton.setEnabled(false);
-//        prevButton.setEnabled(false);
-//        nextButton.setEnabled(false);
-//    }
-//
-//    private void startEditor() {
-//        saveButton.setEnabled(true);
-//        deleteButton.setEnabled(true);
-//        editButton.setEnabled(true);
-//        prevButton.setEnabled(false);
-//        nextButton.setEnabled(true);
-//        setQuestion();
-//        this.validate();
-//    }
+    private void newEditor() {
+        questionset = new Vector();
+        current = 0;
+        if (this.isAncestorOf(buttonsPanel)) this.remove(buttonsPanel);
+        answersPanel.removeAll();
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(2, 2, 2, 2);
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.weightx = 1.0;
+        c.weighty = 1.0;
+        c.fill = GridBagConstraints.VERTICAL;
+        answersPanel.add(greetingTextArea, c);
+        c.weighty = 0.0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        this.add(buttonsPanel, c);
+        saveButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+        editButton.setEnabled(false);
+        prevButton.setEnabled(false);
+        nextButton.setEnabled(false);
+    }
 
-//    private void openTest() {
-//        FileDialog openFileDialog = new FileDialog((Frame) ((Window) this.getParent()).getOwner());
-//        openFileDialog.show();
-//        openFileDialog.dispose();
-//        String directory = openFileDialog.getDirectory(), file = openFileDialog.getFile();
-//        if (directory != null && file != null)
-//            try {
-//                readTestFile(new FileInputStream(directory + file));
-//                startEditor();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return;
-//            }
-//    }
-//
-//    private void saveTest() {
-//        FileDialog saveFileDialog = new FileDialog((Frame) ((Window) this.getParent()).getOwner());
-//        saveFileDialog.setMode(FileDialog.SAVE);
-//        saveFileDialog.show();
-//        saveFileDialog.dispose();
-//        String directory = saveFileDialog.getDirectory(), file = saveFileDialog.getFile();
-//        if (directory != null && file != null)
-//            try {
-//                writeTestFile(new FileOutputStream(directory + file));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return;
-//            }
-//    }
+    private void startEditor() {
+        saveButton.setEnabled(true);
+        deleteButton.setEnabled(true);
+        editButton.setEnabled(true);
+        prevButton.setEnabled(false);
+        nextButton.setEnabled(true);
+        setQuestion();
+        this.validate();
+    }
+
+    private void openTest() {
+        FileDialog openFileDialog = new FileDialog((Frame) ((Window) this.getParent()).getOwner());
+        openFileDialog.show();
+        openFileDialog.dispose();
+        String directory = openFileDialog.getDirectory(), file = openFileDialog.getFile();
+        if (directory != null && file != null)
+            try {
+                readTestFile(new FileInputStream(directory + file));
+                startEditor();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+    }
+
+    private void saveTest() {
+        FileDialog saveFileDialog = new FileDialog((Frame) ((Window) this.getParent()).getOwner());
+        saveFileDialog.setMode(FileDialog.SAVE);
+        saveFileDialog.show();
+        saveFileDialog.dispose();
+        String directory = saveFileDialog.getDirectory(), file = saveFileDialog.getFile();
+        if (directory != null && file != null)
+            try {
+                writeTestFile(new FileOutputStream(directory + file));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return;
+            }
+    }
 
     private void setQuestion() {
         switch (mode) {
@@ -753,49 +753,49 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
         answersPanel.repaint();
     }
 
-//    private void addQuestion() {
-//        String[] suggestedanswers = {new String()};
-//        int[] correctanswers = {1};
-//        CheckboxGroup cbg = new CheckboxGroup();
-//        Checkbox[] cbs = new Checkbox[3];
-//        MessageDialog md = new MessageDialog((Frame) getParent().getParent(), resourceBundle.getString("messagedialog_title"), new MultiLineLabel(resourceBundle.getString("messagedialog_note"), MultiLineLabel.CENTER), MessageDialog.OK);
-//        GridBagConstraints c = new GridBagConstraints();
-//        c.anchor = GridBagConstraints.WEST;
-//        c.gridwidth = GridBagConstraints.REMAINDER;
-//        md.addExt(cbs[0] = new Checkbox(resourceBundle.getString("messagedialog_exactnote"), true, cbg), c);
-//        md.addExt(cbs[1] = new Checkbox(resourceBundle.getString("messagedialog_propernote"), false, cbg), c);
-//        md.addExt(cbs[2] = new Checkbox(resourceBundle.getString("messagedialog_totalnote"), false, cbg), c);
-//        showMessageDialog(md);
-//        int choice = 0;
-//        while (choice < 3) if (cbs[choice++].getState()) break;
-//        switch (choice) {
-//            case EXACT:
-//                questionset.insertElementAt(new ExactQuestion("", suggestedanswers), current);
-//                break;
-//            case PROPER:
-//                questionset.insertElementAt(new ProperChoiceQuestion("", suggestedanswers, correctanswers[0]), current);
-//                break;
-//            case TOTAL:
-//                questionset.insertElementAt(new TotalChoiceQuestion("", suggestedanswers, correctanswers), current);
-//                break;
-//        }
-//        editQuestion();
-//        if (questionset.size() - 2 == current) nextButton.setEnabled(true);
-//    }
-//
-//    private void deleteQuestion() {
-//        questionset.removeElementAt(current);
-//        int nquestions = questionset.size();
-//        if (nquestions == 0) {
-//            newEditor();
-//            return;
-//        }
-//        if (current == nquestions) current--;
-//        setQuestion();
-//        this.validate();
-//    }
+    private void addQuestion() {
+        String[] suggestedanswers = {new String()};
+        int[] correctanswers = {1};
+        CheckboxGroup cbg = new CheckboxGroup();
+        Checkbox[] cbs = new Checkbox[3];
+        MessageDialog md = new MessageDialog((Frame) getParent().getParent(), resourceBundle.getString("messagedialog_title"), new MultiLineLabel(resourceBundle.getString("messagedialog_note"), MultiLineLabel.CENTER), MessageDialog.OK);
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.WEST;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        md.addExt(cbs[0] = new Checkbox(resourceBundle.getString("messagedialog_exactnote"), true, cbg), c);
+        md.addExt(cbs[1] = new Checkbox(resourceBundle.getString("messagedialog_propernote"), false, cbg), c);
+        md.addExt(cbs[2] = new Checkbox(resourceBundle.getString("messagedialog_totalnote"), false, cbg), c);
+        showMessageDialog(md);
+        int choice = 0;
+        while (choice < 3) if (cbs[choice++].getState()) break;
+        switch (choice) {
+            case EXACT:
+                questionset.insertElementAt(new ExactQuestion("", suggestedanswers), current);
+                break;
+            case PROPER:
+                questionset.insertElementAt(new ProperChoiceQuestion("", suggestedanswers, correctanswers[0]), current);
+                break;
+            case TOTAL:
+                questionset.insertElementAt(new TotalChoiceQuestion("", suggestedanswers, correctanswers), current);
+                break;
+        }
+        editQuestion();
+        if (questionset.size() - 2 == current) nextButton.setEnabled(true);
+    }
 
-    /*private void editQuestion() {
+    private void deleteQuestion() {
+        questionset.removeElementAt(current);
+        int nquestions = questionset.size();
+        if (nquestions == 0) {
+            newEditor();
+            return;
+        }
+        if (current == nquestions) current--;
+        setQuestion();
+        this.validate();
+    }
+
+    private void editQuestion() {
         newButton.setEnabled(false);
         openButton.setEnabled(false);
         saveButton.setEnabled(false);
@@ -814,27 +814,27 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
         c.fill = GridBagConstraints.HORIZONTAL;
         answersPanel.add(notePanel, c);
         answersPanel.validate();
-    }*/
+    }
 
-//    private void updateQuestion(boolean update) {
-//        newButton.setEnabled(true);
-//        openButton.setEnabled(true);
-//        saveButton.setEnabled(true);
-//        addButton.setEnabled(true);
-//        deleteButton.setEnabled(true);
-//        editButton.setEnabled(true);
-//        buttonsPanel.remove(okButton);
-//        buttonsPanel.remove(cancelButton);
-//        buttonsPanel.add(prevButton);
-//        buttonsPanel.add(nextButton);
-//        buttonsPanel.validate();
-//        if (update) questionset.setElementAt(obtainCurrentQuestion(), current);
-////  answersPanel.remove(notePanel);
-//        setEditorQuestion(false);
-////  answersPanel.validate();
-//    }
+    private void updateQuestion(boolean update) {
+        newButton.setEnabled(true);
+        openButton.setEnabled(true);
+        saveButton.setEnabled(true);
+        addButton.setEnabled(true);
+        deleteButton.setEnabled(true);
+        editButton.setEnabled(true);
+        buttonsPanel.remove(okButton);
+        buttonsPanel.remove(cancelButton);
+        buttonsPanel.add(prevButton);
+        buttonsPanel.add(nextButton);
+        buttonsPanel.validate();
+        if (update) questionset.setElementAt(obtainCurrentQuestion(), current);
+//  answersPanel.remove(notePanel);
+        setEditorQuestion(false);
+//  answersPanel.validate();
+    }
 
-/*    private Question obtainCurrentQuestion() {
+    private Question obtainCurrentQuestion() {
         Question currentquestion = (Question) questionset.elementAt(current);
         String[] suggestedanswers = new String[answerTextField.length];
         for (int i = 0; i < suggestedanswers.length; i++) suggestedanswers[i] = answerTextField[i].getText();
@@ -861,7 +861,7 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
                 break;
         }
         return currentquestion;
-    }*/
+    }
 
     private void setEditorQuestion(boolean editable) {
         answersPanel.removeAll();
@@ -931,70 +931,70 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
         answersPanel.validate();
     }
 
-//    private void addAnswer() {
-//        if (answerTextField.length == 1) decButton.setEnabled(true);
-//        Question currentquestion = (Question) questionset.elementAt(current);
-//        TextField[] newanswerTextField = new TextField[answerTextField.length + 1];
-//        for (int i = 0; i < answerTextField.length; i++) newanswerTextField[i] = answerTextField[i];
-//        answerTextField = newanswerTextField;
-//        answerTextField[answerTextField.length - 1] = new TextField();
-//        answerTextField[answerTextField.length - 1].setEditable(true);
-//        answerTextField[answerTextField.length - 1].setBackground(Color.white);
-//        GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(2, 2, 2, 2);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        switch (getQuestionType(currentquestion)) {
-//            case EXACT:
-//                c.weightx = 1.0;
-//                c.gridwidth = GridBagConstraints.REMAINDER;
-//                answersPanel.add(answerTextField[answerTextField.length - 1], c, answersPanel.getComponentCount() - 1);
-//                break;
-//            default:
-//                Checkbox[] newcheckboxes = new Checkbox[checkboxes.length + 1];
-//                for (int i = 0; i < checkboxes.length; i++) newcheckboxes[i] = checkboxes[i];
-//                checkboxes = newcheckboxes;
-//                switch (getQuestionType(currentquestion)) {
-//                    case PROPER:
-//                        checkboxes[checkboxes.length - 1] = new Checkbox(Integer.toString(checkboxes.length), false, checkboxGroup);
-//                        break;
-//                    case TOTAL:
-//                        checkboxes[checkboxes.length - 1] = new Checkbox(Integer.toString(checkboxes.length), false);
-//                        break;
-//                }
-//                checkboxes[checkboxes.length - 1].setEnabled(true);
-//                c.weightx = 1.0;
-//                c.gridwidth = GridBagConstraints.RELATIVE;
-//                answersPanel.add(answerTextField[answerTextField.length - 1], c, answersPanel.getComponentCount() - 1);
-//                c.weightx = 0.0;
-//                c.gridwidth = GridBagConstraints.REMAINDER;
-//                answersPanel.add(checkboxes[checkboxes.length - 1], c, answersPanel.getComponentCount() - 1);
-//                break;
-//        }
-//        answersPanel.validate();
-//    }
-//
-//    private void deleteAnswer() {
-//        if (answerTextField.length == 2) decButton.setEnabled(false);
-//        Question currentquestion = (Question) questionset.elementAt(current);
-//        TextField[] newanswerTextField = new TextField[answerTextField.length - 1];
-//        for (int i = 0; i < answerTextField.length - 1; i++) newanswerTextField[i] = answerTextField[i];
-//        switch (getQuestionType(currentquestion)) {
-//            case EXACT:
-//                answersPanel.remove(answerTextField[answerTextField.length - 1]);
-//                break;
-//            default:
-//                Checkbox[] newcheckboxes = new Checkbox[checkboxes.length - 1];
-//                for (int i = 0; i < checkboxes.length - 1; i++) newcheckboxes[i] = checkboxes[i];
-//                if (getQuestionType(currentquestion) == PROPER)
-//                    if (checkboxes[checkboxes.length - 1].getState())
-//                        newcheckboxes[newcheckboxes.length - 1].setState(true);
-//                answersPanel.remove(answerTextField[answerTextField.length - 1]);
-//                answersPanel.remove(checkboxes[checkboxes.length - 1]);
-//                checkboxes = newcheckboxes;
-//                break;
-//        }
-//        answerTextField = newanswerTextField;
-//        answersPanel.validate();
-//    }
+    private void addAnswer() {
+        if (answerTextField.length == 1) decButton.setEnabled(true);
+        Question currentquestion = (Question) questionset.elementAt(current);
+        TextField[] newanswerTextField = new TextField[answerTextField.length + 1];
+        for (int i = 0; i < answerTextField.length; i++) newanswerTextField[i] = answerTextField[i];
+        answerTextField = newanswerTextField;
+        answerTextField[answerTextField.length - 1] = new TextField();
+        answerTextField[answerTextField.length - 1].setEditable(true);
+        answerTextField[answerTextField.length - 1].setBackground(Color.white);
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(2, 2, 2, 2);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        switch (getQuestionType(currentquestion)) {
+            case EXACT:
+                c.weightx = 1.0;
+                c.gridwidth = GridBagConstraints.REMAINDER;
+                answersPanel.add(answerTextField[answerTextField.length - 1], c, answersPanel.getComponentCount() - 1);
+                break;
+            default:
+                Checkbox[] newcheckboxes = new Checkbox[checkboxes.length + 1];
+                for (int i = 0; i < checkboxes.length; i++) newcheckboxes[i] = checkboxes[i];
+                checkboxes = newcheckboxes;
+                switch (getQuestionType(currentquestion)) {
+                    case PROPER:
+                        checkboxes[checkboxes.length - 1] = new Checkbox(Integer.toString(checkboxes.length), false, checkboxGroup);
+                        break;
+                    case TOTAL:
+                        checkboxes[checkboxes.length - 1] = new Checkbox(Integer.toString(checkboxes.length), false);
+                        break;
+                }
+                checkboxes[checkboxes.length - 1].setEnabled(true);
+                c.weightx = 1.0;
+                c.gridwidth = GridBagConstraints.RELATIVE;
+                answersPanel.add(answerTextField[answerTextField.length - 1], c, answersPanel.getComponentCount() - 1);
+                c.weightx = 0.0;
+                c.gridwidth = GridBagConstraints.REMAINDER;
+                answersPanel.add(checkboxes[checkboxes.length - 1], c, answersPanel.getComponentCount() - 1);
+                break;
+        }
+        answersPanel.validate();
+    }
+
+    private void deleteAnswer() {
+        if (answerTextField.length == 2) decButton.setEnabled(false);
+        Question currentquestion = (Question) questionset.elementAt(current);
+        TextField[] newanswerTextField = new TextField[answerTextField.length - 1];
+        for (int i = 0; i < answerTextField.length - 1; i++) newanswerTextField[i] = answerTextField[i];
+        switch (getQuestionType(currentquestion)) {
+            case EXACT:
+                answersPanel.remove(answerTextField[answerTextField.length - 1]);
+                break;
+            default:
+                Checkbox[] newcheckboxes = new Checkbox[checkboxes.length - 1];
+                for (int i = 0; i < checkboxes.length - 1; i++) newcheckboxes[i] = checkboxes[i];
+                if (getQuestionType(currentquestion) == PROPER)
+                    if (checkboxes[checkboxes.length - 1].getState())
+                        newcheckboxes[newcheckboxes.length - 1].setState(true);
+                answersPanel.remove(answerTextField[answerTextField.length - 1]);
+                answersPanel.remove(checkboxes[checkboxes.length - 1]);
+                checkboxes = newcheckboxes;
+                break;
+        }
+        answerTextField = newanswerTextField;
+        answersPanel.validate();
+    }
 
 }//class
