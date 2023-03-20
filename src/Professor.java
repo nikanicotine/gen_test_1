@@ -66,7 +66,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         c.fill = GridBagConstraints.BOTH;
         professor.add(test, c);
         professor.pack();
-//        test.initEditor();
         test.initEditor();
         Insets di = professor.getInsets();
         professor.setSize(di.left + width + di.right, di.top + height + di.bottom);
@@ -204,6 +203,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         questionTextArea = new JTextArea();
         questionTextArea.setEditable(false);
         questionTextArea.setBackground(Color.white);
+        questionTextArea.setLineWrap(true);
+        questionTextArea.setWrapStyleWord(true);
     }
 
 //    private void initTestAWTComponents() {

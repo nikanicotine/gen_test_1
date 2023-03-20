@@ -8,7 +8,7 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-public class Student extends Applet { //TODO JApplet or JFrame or ???
+public class Student extends JApplet { //TODO JApplet or JFrame or ???
     //applet parameters
     private String testfilename, testfileencoding, propertiesfilename = "Properties";
     private int testmode, language, fontsize, mode;
@@ -82,8 +82,8 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
     public void initTest() {
         mode = TEST;
         try {
-            readParameters((new URL(getCodeBase(), propertiesfilename)).openStream());
-            readTestFile((new URL(getCodeBase(), testfilename)).openStream());
+            readParameters(new FileInputStream(propertiesfilename));
+            readTestFile(new FileInputStream(testfilename));
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -147,7 +147,8 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
     }
 
     private void initCommonAWTComponents() {
-        this.setBackground(Color.lightGray);
+//        this.setBackground(Color.lightGray); // TODO а зачем это вообще надо?
+        this.setBackground(Color.yellow);
         this.setFont(font = new Font(getFont().getName(), getFont().getStyle(), fontsize));
         this.setLayout(new GridBagLayout());
         ActionListener al = new ActionListener() {
@@ -188,6 +189,9 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
         resultButton.addActionListener(al);
         greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
+//        greetingTextArea.setLineWrap(true); TODO дает странныый "эффект"
+//        greetingTextArea.setWrapStyleWord(true);
+//        greetingTextArea.setMinimumSize(); ???
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
         buttonsPanel = new JPanel();
@@ -203,6 +207,8 @@ public class Student extends Applet { //TODO JApplet or JFrame or ???
 
         questionTextArea = new JTextArea();
         questionTextArea.setEditable(false);
+        questionTextArea.setLineWrap(true);
+        questionTextArea.setWrapStyleWord(true);
         questionTextArea.setBackground(Color.white);
     }
 
