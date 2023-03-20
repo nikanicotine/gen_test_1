@@ -26,7 +26,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             correctanswerLabel = new JLabel();
     private JTextField name = new JTextField();
     private JTextField group = new JTextField();
-    private TextField[] answerTextField;
+//    private TextField[] answerTextField;
+    private JTextField[] answerTextField;
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton, resultButton, testButton,
             addButton, deleteButton, editButton,
@@ -210,6 +211,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
         questionTextArea.setBackground(Color.white);
+        questionTextArea.setMargin(new Insets(10, 10, 10, 10));
     }
 
     private void initTestAWTComponents() {
@@ -226,7 +228,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_testing"), TESTING);
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_strong"), STRONG);
         greetingTextArea.setText(resourceBundle.getString("textarea_greeting_test"));
-        answerTextField = new TextField[1];
+        answerTextField = new JTextField[1];
         //Panels
         userPanel = new JPanel();
         userPanel.setLayout(new GridBagLayout());
@@ -699,7 +701,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         switch (getQuestionType(currentquestion)) {
             case EXACT:
                 answerLabel.setText(resourceBundle.getString("label_answer") + ":");
-                answerTextField[0] = new TextField(((ExactQuestion) currentquestion).getAnswer());
+                answerTextField[0] = new JTextField(((ExactQuestion) currentquestion).getAnswer());
                 answerTextField[0].setBackground(Color.white);
                 answersPanel.add(answerTextField[0], c);
                 noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
@@ -747,7 +749,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             answersPanel.add(correctanswerLabel, c);
             c.weightx = 1.0;
             c.fill = GridBagConstraints.HORIZONTAL;
-            answerTextField[0] = new TextField(currentquestion.getCorrectAnswer());
+            answerTextField[0] = new JTextField(currentquestion.getCorrectAnswer());
             answerTextField[0].setEditable(false);
             answerTextField[0].setBackground(Color.white);
             answersPanel.add(answerTextField[0], c);
@@ -894,9 +896,9 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
                 answerLabel.setText(resourceBundle.getString("label_answer") + ":");
                 suggestedanswers = Utils.stringTokenizer(((ExactQuestion) currentquestion).getCorrectAnswer(), "|");
                 decButton.setEnabled(suggestedanswers.length == 1 ? false : true);
-                answerTextField = new TextField[suggestedanswers.length];
+                answerTextField = new JTextField[suggestedanswers.length];
                 for (int i = 0; i < suggestedanswers.length; i++) {
-                    answerTextField[i] = new TextField(suggestedanswers[i].trim());
+                    answerTextField[i] = new JTextField(suggestedanswers[i].trim());
                     answerTextField[i].setEditable(editable);
                     answerTextField[i].setBackground(Color.white);
                     answersPanel.add(answerTextField[i], c);
@@ -906,13 +908,13 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
                 answerLabel.setText(resourceBundle.getString("label_answers") + ":");
                 suggestedanswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
                 decButton.setEnabled(suggestedanswers.length == 1 ? false : true);
-                answerTextField = new TextField[suggestedanswers.length];
+                answerTextField = new JTextField[suggestedanswers.length];
                 checkboxGroup = new CheckboxGroup();
                 checkboxes = new Checkbox[suggestedanswers.length];
                 for (int i = 0; i < suggestedanswers.length; i++) {
                     c.weightx = 1.0;
                     c.gridwidth = GridBagConstraints.RELATIVE;
-                    answerTextField[i] = new TextField(suggestedanswers[i].trim());
+                    answerTextField[i] = new JTextField(suggestedanswers[i].trim());
                     answerTextField[i].setEditable(editable);
                     answerTextField[i].setBackground(Color.white);
                     answersPanel.add(answerTextField[i], c);
