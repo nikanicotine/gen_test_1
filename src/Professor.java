@@ -156,18 +156,18 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
                 }
             }
         };
-        testButton = new JButton(resourceBundle.getString("button_test"));
-        testButton.setActionCommand("test");
-        testButton.addActionListener(al);
+//        testButton = new JButton(resourceBundle.getString("button_test"));
+//        testButton.setActionCommand("test");
+//        testButton.addActionListener(al);
         prevButton = new JButton(resourceBundle.getString("button_prev"));
         prevButton.setActionCommand("prev");
         prevButton.addActionListener(al);
         nextButton = new JButton(resourceBundle.getString("button_next"));
         nextButton.setActionCommand("next");
         nextButton.addActionListener(al);
-        resultButton = new JButton(resourceBundle.getString("button_result"));
-        resultButton.setActionCommand("result");
-        resultButton.addActionListener(al);
+//        resultButton = new JButton(resourceBundle.getString("button_result"));
+//        resultButton.setActionCommand("result");
+//        resultButton.addActionListener(al);
         greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
         answersPanel = new JPanel();

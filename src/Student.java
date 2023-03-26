@@ -1,6 +1,7 @@
 //package org.pim.psu.studenttest;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -51,7 +52,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     }
 
     public static void main(String[] args) {
-//        int width = 400, height = 500;
+        int width = 400, height = 500;
         JDialog Student = new JDialog(new JFrame(), "Test");
         Student test = new Student();
         Student.addWindowListener(new WindowAdapter() {
@@ -61,7 +62,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             }
         });
         Student.setMinimumSize(new Dimension(300, 400));
-        Student.setSize(400, 500);
+//        Student.setSize(400, 500);
 //        Student.setMaximumSize(new Dimension(800, 600)); // TODO ?
         Student.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -72,10 +73,10 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         Student.pack();
 //        test.initEditor();
         test.initTest();
-//        Insets di = Student.getInsets();
-//        Student.setSize(di.left + width + di.right, di.top + height + di.bottom);
-//        Dimension ds = Student.getToolkit().getScreenSize(), dd = Student.getSize();
-//        Student.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
+        Insets di = Student.getInsets();
+        Student.setSize(di.left + width + di.right, di.top + height + di.bottom);
+        Dimension ds = Student.getToolkit().getScreenSize(), dd = Student.getSize();
+        Student.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
         Student.show();
     }
 
@@ -201,7 +202,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         questionTextArea.setEditable(false);
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
-        questionTextArea.setBackground(Color.white);
+        questionTextArea.setBackground(Color.white); // по умолчанию
+//        questionTextArea.setBorder(new LineBorder(Color.lightGray)); // это не надо
         questionTextArea.setMargin(new Insets(10, 10, 10, 10));
 
         UpdateWindow();
@@ -227,7 +229,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         userPanel.setLayout(new GridBagLayout());
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(2, 2, 2, 2);
+        c.insets = new Insets(10, 10, 0, 10);
         c.anchor = GridBagConstraints.WEST;
         c.gridwidth = GridBagConstraints.RELATIVE;
         userPanel.add(nameLabel, c);
@@ -254,7 +256,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         c.weighty = 1.0;
-        c.insets = new Insets(5, 5, 0, 5);
+//        c.insets = new Insets(5, 5, 0, 5);
+        c.insets = new Insets(10, 10, 0, 10);
         c.fill = GridBagConstraints.BOTH;
         greetingPanel.add(greetingTextArea, c);
         c = new GridBagConstraints();
@@ -527,7 +530,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             for (int i = 0; i < suggestedanswers.length; i++) {
                 c.weightx = 1.0;
                 c.gridwidth = GridBagConstraints.RELATIVE;
-                TextField textField = new TextField(suggestedanswers[i]);
+                JTextField textField = new JTextField(suggestedanswers[i]);
                 textField.setEditable(false);
                 textField.setBackground(Color.white);
                 answersPanel.add(textField, c);
