@@ -78,7 +78,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         Student.setSize(di.left + width + di.right, di.top + height + di.bottom);
         Dimension ds = Student.getToolkit().getScreenSize(), dd = Student.getSize();
         Student.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
-        Student.show();
+        Student.setVisible(true);
+//        Student.show();
     }
 
     public void init() {
@@ -196,6 +197,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         notePanel = new JPanel();
         notePanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
+//        c.insets = new Insets(0, 5, 0, 5); //2222
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1.0;
         notePanel.add(noteLabel, c);
@@ -204,7 +206,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         questionTextArea.setEditable(false);
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
-        questionTextArea.setBackground(Color.white); // по умолчанию
+        questionTextArea.setBackground(Color.white); // белый по умолчанию
 //        questionTextArea.setBorder(new LineBorder(Color.lightGray)); // это не надо
         questionTextArea.setMargin(new Insets(10, 10, 10, 10));
 
@@ -246,25 +248,28 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         c.weightx = 0.0;
         c.fill = GridBagConstraints.NONE;
         c.gridwidth = GridBagConstraints.RELATIVE;
-        c.insets = new Insets(2, 2, 5, 0);
+        c.insets = new Insets(0, 10, 10, 0);
         modePanel.add(modeLabel, c);
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = GridBagConstraints.REMAINDER;
-        c.insets = new Insets(2, 0, 5, 2);
+//        c.insets = new Insets(2, 0, 5, 2);
+        c.insets = new Insets(0, 10, 10, 10);
         modePanel.add(modeChoice, c);
+
         greetingPanel = new JPanel();
         greetingPanel.setLayout(new GridBagLayout());
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         c.weighty = 1.0;
 //        c.insets = new Insets(5, 5, 0, 5);
-        c.insets = new Insets(10, 10, 0, 10);
+        c.insets = new Insets(5, 10, 0, 10);
         c.fill = GridBagConstraints.BOTH;
         greetingPanel.add(greetingTextArea, c);
         c = new GridBagConstraints();
         c.ipadx = 10;
         c.insets = new Insets(5, 0, 5, 0);
+//        c.insets = new Insets(15, 0, 15, 0);
         greetingPanel.add(testButton, c);
         //Window
         c.gridwidth = GridBagConstraints.REMAINDER;
@@ -485,7 +490,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(2, 2, 2, 2);
+//        c.insets = new Insets(10, 10, 5, 10); //2222
+        c.insets = new Insets(2, 2, 2, 2); //2222
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -510,6 +516,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             checkboxGroup = new CheckboxGroup();
             checkboxes = new Checkbox[suggestedanswers.length];
             for (int i = 0; i < suggestedanswers.length; i++) {
+//                c.insets = new Insets(0, 5, 0, 5); //2222
                 c.weightx = 1.0;
                 c.gridwidth = GridBagConstraints.RELATIVE;
                 JTextField textField = new JTextField(suggestedanswers[i]);
@@ -559,70 +566,5 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
 
         UpdateWindow();
     }
-
-//    private void setEditorQuestion(boolean editable) {
-//        answersPanel.removeAll();
-//        Question currentquestion = (Question) questionset.elementAt(current);
-//        GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(2, 2, 2, 2);
-//        c.weightx = 1.0;
-//        c.gridwidth = GridBagConstraints.REMAINDER;
-//        questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
-//        answersPanel.add(questionLabel, c);
-//        c.weighty = 1.0;
-//        c.fill = GridBagConstraints.BOTH;
-//        questionTextArea.setText(currentquestion.getQuestion());
-//        questionTextArea.setEditable(editable);
-//        answersPanel.add(questionTextArea, c);
-//        c.weighty = 0.0;
-//        c.gridwidth = GridBagConstraints.REMAINDER;
-//        c.fill = GridBagConstraints.NONE;
-//        answersPanel.add(answerLabel, c);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        String[] suggestedanswers;
-//        if (getQuestionType(currentquestion) == EXACT) {
-//            answerLabel.setText(resourceBundle.getString("label_answer") + ":");
-//            suggestedanswers = Utils.stringTokenizer(((ExactQuestion) currentquestion).getCorrectAnswer(), "|");
-//            decButton.setEnabled(suggestedanswers.length != 1);
-//            answerTextField = new JTextField[suggestedanswers.length];
-//            for (int i = 0; i < suggestedanswers.length; i++) {
-//                answerTextField[i] = new JTextField(suggestedanswers[i].trim());
-//                answerTextField[i].setEditable(editable);
-//                answerTextField[i].setBackground(Color.white);
-//                answersPanel.add(answerTextField[i], c);
-//            }
-//        } else {
-//            answerLabel.setText(resourceBundle.getString("label_answers") + ":");
-//            suggestedanswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
-//            decButton.setEnabled(suggestedanswers.length != 1);
-//            answerTextField = new JTextField[suggestedanswers.length];
-//            checkboxGroup = new CheckboxGroup();
-//            checkboxes = new Checkbox[suggestedanswers.length];
-//            for (int i = 0; i < suggestedanswers.length; i++) {
-//                c.weightx = 1.0;
-//                c.gridwidth = GridBagConstraints.RELATIVE;
-//                answerTextField[i] = new JTextField(suggestedanswers[i].trim());
-//                answerTextField[i].setEditable(editable);
-//                answerTextField[i].setBackground(Color.white);
-//                answersPanel.add(answerTextField[i], c);
-//                c.weightx = 0.0;
-//                c.gridwidth = GridBagConstraints.REMAINDER;
-//                switch (getQuestionType(currentquestion)) {
-//                    case PROPER:
-//                        checkboxes[i] = new Checkbox(Integer.toString(i + 1), (i + 1 == Integer.parseInt(currentquestion.getCorrectAnswer())), checkboxGroup);
-//                        break;
-//                    case TOTAL:
-//                        checkboxes[i] = new Checkbox(Integer.toString(i + 1), ((TotalChoiceQuestion) currentquestion).getCorrectAnswers()[i]);
-//                        break;
-//                }
-//                checkboxes[i].setEnabled(editable);
-//                answersPanel.add(checkboxes[i], c);
-//            }
-//            if (getQuestionType(currentquestion) == PROPER)
-//                if (((ProperChoiceQuestion) currentquestion).getAnswer() != 0)
-//                    checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
-//        }
-//        answersPanel.validate();
-//    }
 
 }//class
