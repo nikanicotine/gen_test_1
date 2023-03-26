@@ -1,6 +1,7 @@
 //package org.pim.psu.studenttest;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -48,6 +49,12 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
     //resources
     private ResourceBundle resourceBundle;
     private PropertyResourceBundle propertyResourceBundle;
+
+    private void ShowMsg(String s) {
+        this.setVisible(true);
+        JOptionPane.showMessageDialog(null, s);
+        this.setVisible(true);
+    }
 
     public static void main(String[] args) {
         int width = 400, height = 500;
@@ -365,77 +372,55 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         }
     }
 
-    private void readTestFile(InputStream is) {
-        try {
-            LineNumberReader lnr = new LineNumberReader(new InputStreamReader(is, testfileencoding));
-            StringBuffer question = new StringBuffer();
-            Vector suggestedanswers = new Vector();
-            String str;
-            char delimiter;
-            questionset = new Vector();
-            while (lnr.ready()) {
-                str = lnr.readLine().trim();
-                delimiter = str.charAt(0);
-                switch (delimiter) {
-                    case '?':
-                        question = new StringBuffer(str.substring(1));
-                        break;
-                    case '#':
-                        suggestedanswers.addElement(str.substring(1));
-                        break;
-                    case '!':
-                        if (suggestedanswers.size() == 0) {
-                            String[] correctanswers = Utils.stringTokenizer(str.substring(1), "|");
-                            for (int i = 0; i < correctanswers.length; i++)
-                                correctanswers[i] = Utils.simplifyString(correctanswers[i]);
-                            questionset.addElement(new ExactQuestion(question.toString(), correctanswers));
-                        } else {
-                            String[] correctanswers = Utils.stringTokenizer(str.substring(1), "&");
-                            int[] nanswers = new int[correctanswers.length];
-                            String[] sanswers = new String[suggestedanswers.size()];
-                            for (int i = 0; i < suggestedanswers.size(); i++)
-                                sanswers[i] = (String) suggestedanswers.elementAt(i);
-                            for (int i = 0; i < correctanswers.length; i++)
-                                nanswers[i] = Integer.parseInt(Utils.simplifyString(correctanswers[i]));
-                            if (correctanswers.length == 1)
-                                questionset.addElement(new ProperChoiceQuestion(question.toString(), sanswers, nanswers[0]));
-                            else
-                                questionset.addElement(new TotalChoiceQuestion(question.toString(), sanswers, nanswers));
-                            suggestedanswers.removeAllElements();
-                        }
-                        break;
-                    default:
-                        question.append("\r\n" + str);
-                }
-            }
-            lnr.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-    }
-
-    private void writeTestFile(FileOutputStream os) {
-        try {
-            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, testfileencoding));
-            Question currentquestion;
-            String[] suggestedAnswers;
-            for (int i = 0, n = questionset.size(); i < n; i++) {
-                currentquestion = (Question) questionset.elementAt(i);
-                bw.write("?" + currentquestion.getQuestion() + "\r\n");
-                if (currentquestion instanceof ChoiceQuestion) {
-                    suggestedAnswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
-                    for (String suggestedAnswer : suggestedAnswers) bw.write("#" + suggestedAnswer + "\r\n");
-                }
-                bw.write("!" + currentquestion.getCorrectAnswer() + "\r\n");
-            }
-            bw.flush();
-            bw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-    }
+//    private void readTestFile(InputStream is) {
+//        try {
+//            LineNumberReader lnr = new LineNumberReader(new InputStreamReader(is, testfileencoding));
+//            StringBuffer question = new StringBuffer();
+//            Vector suggestedanswers = new Vector();
+//            String str;
+//            char delimiter;
+//            questionset = new Vector();
+//            while (lnr.ready()) {
+//                str = lnr.readLine().trim();
+//                delimiter = str.charAt(0);
+//                switch (delimiter) {
+//                    case '?':
+//                        question = new StringBuffer(str.substring(1));
+//                        break;
+//                    case '#':
+//                        suggestedanswers.addElement(str.substring(1));
+//                        break;
+//                    case '!':
+//                        if (suggestedanswers.size() == 0) {
+//                            String[] correctanswers = Utils.stringTokenizer(str.substring(1), "|");
+//                            for (int i = 0; i < correctanswers.length; i++)
+//                                correctanswers[i] = Utils.simplifyString(correctanswers[i]);
+//                            questionset.addElement(new ExactQuestion(question.toString(), correctanswers));
+//                        } else {
+//                            String[] correctanswers = Utils.stringTokenizer(str.substring(1), "&");
+//                            int[] nanswers = new int[correctanswers.length];
+//                            String[] sanswers = new String[suggestedanswers.size()];
+//                            for (int i = 0; i < suggestedanswers.size(); i++)
+//                                sanswers[i] = (String) suggestedanswers.elementAt(i);
+//                            for (int i = 0; i < correctanswers.length; i++)
+//                                nanswers[i] = Integer.parseInt(Utils.simplifyString(correctanswers[i]));
+//                            if (correctanswers.length == 1)
+//                                questionset.addElement(new ProperChoiceQuestion(question.toString(), sanswers, nanswers[0]));
+//                            else
+//                                questionset.addElement(new TotalChoiceQuestion(question.toString(), sanswers, nanswers));
+//                            suggestedanswers.removeAllElements();
+//                        }
+//                        break;
+//                    default:
+//                        question.append("\r\n" + str);
+//                }
+//            }
+//            lnr.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return;
+//        }
+//    }
 
     private void newEditor() {
         questionset = new Vector();
@@ -469,34 +454,108 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         this.validate();
     }
 
+//    private void openTest() {
+//        FileDialog openFileDialog = new FileDialog((Frame) ((Window) this.getParent()).getOwner());
+//        openFileDialog.show();
+//        openFileDialog.dispose();
+//        String directory = openFileDialog.getDirectory(), file = openFileDialog.getFile();
+//        if (directory != null && file != null)
+//            try {
+//                readTestFile(new FileInputStream(directory + file));
+//                startEditor();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return;
+//            }
+//    }
+
     private void openTest() {
-        FileDialog openFileDialog = new FileDialog((Frame) ((Window) this.getParent()).getOwner());
-        openFileDialog.show();
-        openFileDialog.dispose();
-        String directory = openFileDialog.getDirectory(), file = openFileDialog.getFile();
-        if (directory != null && file != null)
-            try {
-                readTestFile(new FileInputStream(directory + file));
-                startEditor();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
+        JFileChooser fc = new JFileChooser();
+        fc.setFileFilter(new FileNameExtensionFilter("Binary Files","bin" ));
+        fc.showOpenDialog(null);
+        File f = fc.getSelectedFile();
+
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream( new FileInputStream(f)));
+            ArrayList <String> arr = (ArrayList<String>)ois.readObject();
+            ois.close();
+
+            StringBuffer question = new StringBuffer();
+            Vector suggestedanswers = new Vector();
+            char delimiter;
+            questionset = new Vector();
+
+            for (String str : arr) {
+                delimiter = str.charAt(0);
+                switch (delimiter) {
+                    case '?':
+                        question = new StringBuffer(str.substring(1));
+                        break;
+                    case '#':
+                        suggestedanswers.addElement(str.substring(1));
+                        break;
+                    case '!':
+                        if (suggestedanswers.size() == 0) {
+                            String[] correctanswers = Utils.stringTokenizer(str.substring(1), "|");
+                            for (int i = 0; i < correctanswers.length; i++)
+                                correctanswers[i] = Utils.simplifyString(correctanswers[i]);
+                            questionset.addElement(new ExactQuestion(question.toString(), correctanswers));
+                        } else {
+                            String[] correctanswers = Utils.stringTokenizer(str.substring(1), "&");
+                            int[] nanswers = new int[correctanswers.length];
+                            String[] sanswers = new String[suggestedanswers.size()];
+                            for (int i = 0; i < suggestedanswers.size(); i++)
+                                sanswers[i] = (String) suggestedanswers.elementAt(i);
+                            for (int i = 0; i < correctanswers.length; i++)
+                                nanswers[i] = Integer.parseInt(Utils.simplifyString(correctanswers[i]));
+                            if (correctanswers.length == 1)
+                                questionset.addElement(new ProperChoiceQuestion(question.toString(), sanswers, nanswers[0]));
+                            else
+                                questionset.addElement(new TotalChoiceQuestion(question.toString(), sanswers, nanswers));
+                            suggestedanswers.removeAllElements();
+                        }
+                        break;
+                    default:
+                        question.append("\r\n" + str);
+                }
             }
+            startEditor();
+        }
+
+        catch (IOException | ClassNotFoundException ioException) {
+            ioException.printStackTrace();
+            ShowMsg("Ошибка при загрузке");
+        }
     }
 
     private void saveTest() {
-        FileDialog saveFileDialog = new FileDialog((Frame) ((Window) this.getParent()).getOwner());
-        saveFileDialog.setMode(FileDialog.SAVE);
-        saveFileDialog.show();
-        saveFileDialog.dispose();
-        String directory = saveFileDialog.getDirectory(), file = saveFileDialog.getFile();
-        if (directory != null && file != null)
-            try {
-                writeTestFile(new FileOutputStream(directory + file));
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Сохранение теста");
+        fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
+        fc.showSaveDialog(null);
+        File f = fc.getSelectedFile();
+        ArrayList<String> arr = new ArrayList<String>();
+
+        Question currentquestion;
+        String[] suggestedAnswers;
+
+        for (int i = 0, n = questionset.size(); i < n; i++) {
+            currentquestion = (Question) questionset.elementAt(i);
+            arr.add("?" + currentquestion.getQuestion() + "\r\n");
+            if (currentquestion instanceof ChoiceQuestion) {
+                suggestedAnswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
+                for (String suggestedAnswer : suggestedAnswers) arr.add("#" + suggestedAnswer + "\r\n");
             }
+            arr.add("!" + currentquestion.getCorrectAnswer() + "\r\n");
+        }
+        try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)))) {
+            oos.writeObject(arr);
+            oos.close();
+            ShowMsg("Сохранение прошло успешно");
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            ShowMsg("Ошибка при сохранении");
+        }
     }
 
     private void setQuestion() {

@@ -2,6 +2,7 @@
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -88,7 +89,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         mode = TEST;
         try {
             readParameters(new FileInputStream(propertiesfilename));
-            readTestFile(new FileInputStream(testfilename));
+            readTestFile();
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -148,7 +149,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             public synchronized void actionPerformed(ActionEvent e) {
                 String actionCommand = e.getActionCommand();
                 while (true) {
-                    if (actionCommand.equals("test")) {
+                    if (actionCommand.equals("open test")) {
                         startTest();
                         break;
                     }
@@ -168,8 +169,9 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
                 }
             }
         };
+
         testButton = new JButton(resourceBundle.getString("button_test"));
-        testButton.setActionCommand("test");
+        testButton.setActionCommand("open test");
         testButton.addActionListener(al);
         prevButton = new JButton(resourceBundle.getString("button_prev"));
         prevButton.setActionCommand("prev");
@@ -282,7 +284,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         }
         if (--current == 0) prevButton.setEnabled(false);
         buttonsPanel.validate();
-        setQuestion();
+        setTestQuestion();
 
         UpdateWindow();
     }
@@ -295,7 +297,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             if (mode == TEST) buttonsPanel.add(resultButton);
         }
         buttonsPanel.validate();
-        setQuestion();
+        setTestQuestion();
 
         UpdateWindow();
     }
@@ -310,7 +312,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         message.append(resourceBundle.getString("label_group")).append(": ").append(group.getText()).append("\n");
         message.append(resourceBundle.getString("label_questions")).append(" ").append(Integer.toString(questionset.size())).append("\n");
         message.append(resourceBundle.getString("label_correctanswers")).append(" ").append(Integer.toString(nCorrectAnswers));
-        if (testmode == LEARNING) message.append("\n \n ").append(resourceBundle.getString("messagedialog_question")).append(" ");
+        if (testmode == LEARNING)
+            message.append("\n \n ").append(resourceBundle.getString("messagedialog_question")).append(" ");
         int actions = testmode == LEARNING ? MessageDialog.YES | MessageDialog.NO : MessageDialog.OK;
         MessageDialog md = new MessageDialog(new JFrame(), resourceBundle.getString("button_result"), new MultiLineLabel(message.toString(), MultiLineLabel.CENTER), actions);
         ActionListener al = new ActionListener() {
@@ -373,16 +376,23 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         }
     }
 
-    private void readTestFile(InputStream is) {
+    private void readTestFile() {
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Выберите файл теста");
+        fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
+        fc.showOpenDialog(null);
+        File f = fc.getSelectedFile();
+
         try {
-            LineNumberReader lnr = new LineNumberReader(new InputStreamReader(is, testfileencoding));
+            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
+            ArrayList<String> arr = (ArrayList<String>) ois.readObject();
+            ois.close();
             StringBuffer question = new StringBuffer();
             Vector suggestedanswers = new Vector();
-            String str;
             char delimiter;
             questionset = new Vector();
-            while (lnr.ready()) {
-                str = lnr.readLine().trim();
+
+            for (String str : arr) {
                 delimiter = str.charAt(0);
                 switch (delimiter) {
                     case '?':
@@ -416,7 +426,6 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
                         question.append("\r\n" + str);
                 }
             }
-            lnr.close();
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -461,42 +470,15 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         this.remove(greetingPanel);
+        UpdateWindow();
         c.weighty = 1.0;
         c.fill = GridBagConstraints.VERTICAL;
         this.add(answersPanel, c);
         c.weighty = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         this.add(buttonsPanel, c);
-        setQuestion();
+        setTestQuestion();
         this.validate();
-
-        UpdateWindow();
-    }
-
-//    private void openTest() {
-//        FileDialog openFileDialog = new FileDialog((Frame) ((Window) this.getParent()).getOwner());
-//        openFileDialog.show();
-//        openFileDialog.dispose();
-//        String directory = openFileDialog.getDirectory(), file = openFileDialog.getFile();
-//        if (directory != null && file != null)
-//            try {
-//                readTestFile(new FileInputStream(directory + file));
-//                startEditor();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                return;
-//            }
-//    UpdateWindow();
-//    }
-
-    private void setQuestion() {
-        if (mode == TEST) {
-            setTestQuestion();
-            //            case EDITOR:
-//                setEditorQuestion(false);
-//                break;
-        }
-        UpdateWindow();
     }
 
     private void setTestQuestion() {
