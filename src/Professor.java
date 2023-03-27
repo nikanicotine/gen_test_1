@@ -25,17 +25,16 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
             answerLabel = new JLabel(),
             noteLabel = new JLabel(),
             correctanswerLabel = new JLabel();
-    private JTextField name = new JTextField();
-    private JTextField group = new JTextField();
+//    private JTextField name = new JTextField();
+//    private JTextField group = new JTextField();
     private JTextField[] answerTextField;
     private Choice modeChoice = new Choice();
-    private JButton prevButton, nextButton, resultButton, testButton,
+    private JButton prevButton, nextButton,
             addButton, deleteButton, editButton,
             newButton, openButton, saveButton,
             okButton, cancelButton, incButton, decButton;
     private JTextArea greetingTextArea, questionTextArea;
-    private JPanel userPanel, modePanel, filePanel, greetingPanel,
-            answersPanel, notePanel, actionsPanel, buttonsPanel,
+    private JPanel filePanel, answersPanel, notePanel, actionsPanel, buttonsPanel,
             incdecPanel;
     private CheckboxGroup checkboxGroup;
     private Checkbox[] checkboxes;
@@ -54,6 +53,9 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         this.setVisible(true);
         JOptionPane.showMessageDialog(null, s);
         this.setVisible(true);
+    }
+    private void UpdateWindow() {
+        this.repaint();
     }
 
     public static void main(String[] args) {
@@ -197,6 +199,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         questionTextArea.setBackground(Color.white);
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
+
+        UpdateWindow();
     }
 
     private void initEditorAWTComponents() {
@@ -316,17 +320,21 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         c.anchor = GridBagConstraints.EAST;
         c.fill = GridBagConstraints.NONE;
         notePanel.add(incdecPanel, c);
+
+        UpdateWindow();
     }
 
     private void prevButtonPushed() {
         if (mode == TEST) obtainCurrentAnswer();
         if (current == questionset.size() - 1) {
-            if (mode == TEST) buttonsPanel.remove(resultButton);
+//            if (mode == TEST) buttonsPanel.remove(resultButton);
             nextButton.setEnabled(true);
         }
         if (--current == 0) prevButton.setEnabled(false);
         buttonsPanel.validate();
         setQuestion();
+
+        UpdateWindow();
     }
 
     private void nextButtonPushed() {
@@ -334,10 +342,12 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         if (current++ == 0 && testmode != STRONG) prevButton.setEnabled(true);
         if (current == questionset.size() - 1) {
             nextButton.setEnabled(false);
-            if (mode == TEST) buttonsPanel.add(resultButton);
+//            if (mode == TEST) buttonsPanel.add(resultButton);
         }
         buttonsPanel.validate();
         setQuestion();
+
+        UpdateWindow();
     }
 
     private void showMessageDialog(MessageDialog dialog) {
@@ -396,6 +406,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         editButton.setEnabled(false);
         prevButton.setEnabled(false);
         nextButton.setEnabled(false);
+
+        UpdateWindow();
     }
 
     private void startEditor() {
@@ -463,6 +475,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
             ioException.printStackTrace();
             ShowMsg("Ошибка при загрузке");
         }
+        UpdateWindow();
     }
 
     private void saveTest() {
@@ -493,6 +506,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
             ioException.printStackTrace();
             ShowMsg("Ошибка при сохранении");
         }
+        UpdateWindow();
     }
 
     private void setQuestion() {
@@ -504,6 +518,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
                 setEditorQuestion(false);
                 break;
         }
+        UpdateWindow();
     }
 
     private void setTestQuestion() {
@@ -524,67 +539,66 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         c.fill = GridBagConstraints.NONE;
         answersPanel.add(answerLabel, c);
         c.fill = GridBagConstraints.HORIZONTAL;
-        switch (getQuestionType(currentquestion)) {
-            case EXACT:
-                answerLabel.setText(resourceBundle.getString("label_answer") + ":");
-                answerTextField[0] = new JTextField(((ExactQuestion) currentquestion).getAnswer());
-                answerTextField[0].setBackground(Color.white);
-                answersPanel.add(answerTextField[0], c);
-                noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
-                break;
-            default:
-                answerLabel.setText(resourceBundle.getString("label_answers") + ":");
-                String[] suggestedanswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
-                checkboxGroup = new CheckboxGroup();
-                checkboxes = new Checkbox[suggestedanswers.length];
-                for (int i = 0; i < suggestedanswers.length; i++) {
-                    c.weightx = 1.0;
-                    c.gridwidth = GridBagConstraints.RELATIVE;
-                    TextField textField = new TextField(suggestedanswers[i]);
-                    textField.setEditable(false);
-                    textField.setBackground(Color.white);
-                    answersPanel.add(textField, c);
-                    c.weightx = 0.0;
-                    c.gridwidth = GridBagConstraints.REMAINDER;
-                    switch (getQuestionType(currentquestion)) {
-                        case PROPER:
-                            checkboxes[i] = new Checkbox(Integer.toString(i + 1), false, checkboxGroup);
-                            break;
-                        case TOTAL:
-                            checkboxes[i] = new Checkbox(Integer.toString(i + 1), ((TotalChoiceQuestion) currentquestion).getAnswer()[i]);
-                            break;
-                    }
-                    answersPanel.add(checkboxes[i], c);
-                }
-                switch (getQuestionType(currentquestion)) {
-                    case PROPER:
-                        noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_properquestion"));
-                        if (((ProperChoiceQuestion) currentquestion).getAnswer() != 0)
-                            checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
-                        break;
-                    case TOTAL:
-                        noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_totalquestion"));
-                        break;
-                }
-                break;
-        }
-        if (showcorrect) {
-            c.weightx = 0.0;
-            c.fill = GridBagConstraints.NONE;
-            correctanswerLabel.setText(resourceBundle.getString("label_correctanswer"));
-            answersPanel.add(correctanswerLabel, c);
-            c.weightx = 1.0;
-            c.fill = GridBagConstraints.HORIZONTAL;
-            answerTextField[0] = new JTextField(currentquestion.getCorrectAnswer());
-            answerTextField[0].setEditable(false);
+        if (getQuestionType(currentquestion) == EXACT) {
+            answerLabel.setText(resourceBundle.getString("label_answer") + ":");
+            answerTextField[0] = new JTextField(((ExactQuestion) currentquestion).getAnswer());
             answerTextField[0].setBackground(Color.white);
             answersPanel.add(answerTextField[0], c);
+            noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
+        } else {
+            answerLabel.setText(resourceBundle.getString("label_answers") + ":");
+            String[] suggestedanswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
+            checkboxGroup = new CheckboxGroup();
+            checkboxes = new Checkbox[suggestedanswers.length];
+            for (int i = 0; i < suggestedanswers.length; i++) {
+                c.weightx = 1.0;
+                c.gridwidth = GridBagConstraints.RELATIVE;
+                JTextField textField = new JTextField(suggestedanswers[i]);
+                textField.setEditable(false);
+                textField.setBackground(Color.white);
+                answersPanel.add(textField, c);
+                c.weightx = 0.0;
+                c.gridwidth = GridBagConstraints.REMAINDER;
+                switch (getQuestionType(currentquestion)) {
+                    case PROPER:
+                        checkboxes[i] = new Checkbox(Integer.toString(i + 1), false, checkboxGroup);
+                        break;
+                    case TOTAL:
+                        checkboxes[i] = new Checkbox(Integer.toString(i + 1), ((TotalChoiceQuestion) currentquestion).getAnswer()[i]);
+                        break;
+                }
+                answersPanel.add(checkboxes[i], c);
+            }
+//            switch (getQuestionType(currentquestion)) {
+//                case PROPER:
+//                    noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_properquestion"));
+//                    if (((ProperChoiceQuestion) currentquestion).getAnswer() != 0)
+//                        checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
+//                    break;
+//                case TOTAL:
+//                    noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_totalquestion"));
+//                    break;
+//            }
         }
+//        if (showcorrect) {
+//            c.weightx = 0.0;
+//            c.fill = GridBagConstraints.NONE;
+//            correctanswerLabel.setText(resourceBundle.getString("label_correctanswer"));
+//            answersPanel.add(correctanswerLabel, c);
+//            c.weightx = 1.0;
+//            c.fill = GridBagConstraints.HORIZONTAL;
+//            answerTextField[0] = new JTextField(currentquestion.getCorrectAnswer());
+//            answerTextField[0].setEditable(false);
+//            answerTextField[0].setBackground(Color.white);
+//            answersPanel.add(answerTextField[0], c);
+//        }
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         answersPanel.add(notePanel, c);
         answersPanel.validate();
         answersPanel.repaint();
+
+        UpdateWindow();
     }
 
     private void addQuestion() {
@@ -616,6 +630,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         }
         editQuestion();
         if (questionset.size() - 2 == current) nextButton.setEnabled(true);
+
+        UpdateWindow();
     }
 
     private void deleteQuestion() {
@@ -628,6 +644,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         if (current == nquestions) current--;
         setQuestion();
         this.validate();
+
+        UpdateWindow();
     }
 
     private void editQuestion() {
@@ -649,6 +667,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         c.fill = GridBagConstraints.HORIZONTAL;
         answersPanel.add(notePanel, c);
         answersPanel.validate();
+
+        UpdateWindow();
     }
 
     private void updateQuestion(boolean update) {
@@ -667,6 +687,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
 //  answersPanel.remove(notePanel);
         setEditorQuestion(false);
 //  answersPanel.validate();
+
+        UpdateWindow();
     }
 
     private Question obtainCurrentQuestion() {
@@ -762,6 +784,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
                     checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
         }
         answersPanel.validate();
+        UpdateWindow();
     }
 
     private void addAnswer() {
@@ -802,6 +825,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
             answersPanel.add(checkboxes[checkboxes.length - 1], c, answersPanel.getComponentCount() - 1);
         }
         answersPanel.validate();
+        UpdateWindow();
     }
 
     private void deleteAnswer() {
@@ -825,6 +849,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         }
         answerTextField = newanswerTextField;
         answersPanel.validate();
+        UpdateWindow();
     }
-
 }//class

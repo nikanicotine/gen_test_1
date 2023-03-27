@@ -27,7 +27,7 @@ public class Resources_en_US extends ListResourceBundle {
                     {"button_next", "Next >"},
                     {"button_prev", "< Prev"},
                     {"button_result", "Result"},
-                    {"button_test", "Open test"},
+                    {"button_test", "Start test"},
                     {"button_add", "Add"},
                     {"button_delete", "Delete"},
                     {"button_edit", "Edit"},

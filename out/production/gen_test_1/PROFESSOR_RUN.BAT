@@ -1,1 +1,1 @@
-javaw Student
+javaw Professor

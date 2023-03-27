@@ -1,9 +1,10 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MessageDialog extends Dialog implements ActionListener {
+public class MessageDialog extends JDialog implements ActionListener {
     protected MultiLineLabel message;
-    protected Panel extendedPanel = new Panel(), buttonsPanel = new Panel();
+    protected JPanel extendedPanel = new JPanel(), buttonsPanel = new JPanel();
     protected ActionListener actionListener = null;
     public static final String[] labeles = {"Yes", "No", "Ok", "Cancel"},
             commands = {"yes", "no", "ok", "cancel"};

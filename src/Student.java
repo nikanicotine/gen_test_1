@@ -32,9 +32,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton, resultButton, testButton, openButton;
     private JTextArea greetingTextArea, questionTextArea;
-    private JPanel userPanel, modePanel, filePanel, greetingPanel,
-            answersPanel, notePanel, buttonsPanel,
-            incdecPanel;
+    private JPanel userPanel, modePanel, greetingPanel,
+            answersPanel, notePanel, buttonsPanel;
     private CheckboxGroup checkboxGroup;
     private Checkbox[] checkboxes;
     private Font font;
@@ -49,7 +48,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     private PropertyResourceBundle propertyResourceBundle;
 
     private void UpdateWindow() {
-        this.setVisible(true);
+        this.repaint();
     }
 
     public static void main(String[] args) {
@@ -150,7 +149,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             public synchronized void actionPerformed(ActionEvent e) {
                 String actionCommand = e.getActionCommand();
                 while (true) {
-                    if (actionCommand.equals("open test")) {
+                    if (actionCommand.equals("start test")) {
                         startTest();
                         break;
                     }
@@ -172,7 +171,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         };
 
         testButton = new JButton(resourceBundle.getString("button_test"));
-        testButton.setActionCommand("open test");
+        testButton.setActionCommand("start test");
         testButton.addActionListener(al);
         prevButton = new JButton(resourceBundle.getString("button_prev"));
         prevButton.setActionCommand("prev");
@@ -460,6 +459,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         if (this.isAncestorOf(buttonsPanel)) this.remove(buttonsPanel);
         if (buttonsPanel.isAncestorOf(resultButton)) buttonsPanel.remove(resultButton);
         this.add(greetingPanel, c);
+
+        UpdateWindow();
     }
 
     private void startTest() {
