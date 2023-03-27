@@ -1,12 +1,9 @@
-//package org.pim.psu.studenttest;
+package javafiles;//package org.pim.psu.studenttest;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.*;
 import java.io.*;
 import java.util.*;
 
@@ -62,8 +59,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             }
         });
         Student.setMinimumSize(new Dimension(300, 400));
-//        Student.setSize(400, 500);
-//        Student.setMaximumSize(new Dimension(800, 600)); // TODO ?
+//        javafiles.Student.setSize(400, 500);
+//        javafiles.Student.setMaximumSize(new Dimension(800, 600)); // TODO ?
         Student.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1.0;
@@ -78,7 +75,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         Dimension ds = Student.getToolkit().getScreenSize(), dd = Student.getSize();
         Student.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
         Student.setVisible(true);
-//        Student.show();
+//        javafiles.Student.show();
     }
 
     public void init() {
@@ -121,8 +118,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             return;
         }
         String parameter;
-        parameter = readParameter("TESTFILENAME");
-        testfilename = parameter != null ? parameter : "TestFile.txt";
+//        parameter = readParameter("TESTFILENAME");
+//        testfilename = parameter != null ? parameter : "TestFile.txt";
         parameter = readParameter("TESTFILEENCODING");
         testfileencoding = parameter != null ? parameter : "Cp1251";
         parameter = readParameter("TESTMODE");
@@ -142,7 +139,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
 
     private void initCommonAWTComponents() {
 //        this.setBackground(Color.lightGray); // TODO а зачем это вообще надо?
-        this.setBackground(Color.yellow);
+        this.setBackground(Color.white);
         this.setFont(font = new Font(getFont().getName(), getFont().getStyle(), fontsize));
         this.setLayout(new GridBagLayout());
         ActionListener al = new ActionListener() {
@@ -459,6 +456,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         if (this.isAncestorOf(buttonsPanel)) this.remove(buttonsPanel);
         if (buttonsPanel.isAncestorOf(resultButton)) buttonsPanel.remove(resultButton);
         this.add(greetingPanel, c);
+        buttonsPanel.repaint();
 
         UpdateWindow();
     }

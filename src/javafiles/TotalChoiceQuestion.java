@@ -1,3 +1,5 @@
+package javafiles;
+
 public class TotalChoiceQuestion extends ChoiceQuestion {
     private boolean[] correctanswer;
     private boolean[] answer;
@@ -6,13 +8,13 @@ public class TotalChoiceQuestion extends ChoiceQuestion {
         super(question, suggestedanswers);
         this.correctanswer = new boolean[suggestedanswers.length];
         clearAnswer();
-        for (int i = 0; i < correctanswer.length; i++) this.correctanswer[correctanswer[i] - 1] = true;
+        for (int j : correctanswer) this.correctanswer[j - 1] = true;
     }
 
     public String getCorrectAnswer() {
         StringBuffer correctanswer = new StringBuffer();
         for (int i = 0; i < this.correctanswer.length; i++)
-            if (this.correctanswer[i]) correctanswer.append((i + 1) + " & ");
+            if (this.correctanswer[i]) correctanswer.append(i + 1).append(" & ");
         correctanswer.setLength(correctanswer.length() - 2);
         return correctanswer.toString();
     }

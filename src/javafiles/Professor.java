@@ -1,11 +1,10 @@
-//package org.pim.psu.studenttest;
+package javafiles;//package org.pim.psu.studenttest;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.net.*;
 import java.io.*;
 import java.util.*;
 
@@ -60,7 +59,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
 
     public static void main(String[] args) {
         int width = 400, height = 500;
-        JDialog professor = new JDialog(new JFrame(), "Question redactor");
+        JDialog professor = new JDialog(new JFrame(), "javafiles.Question redactor");
         Professor test = new Professor();
         professor.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -121,7 +120,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         }
         String parameter;
         parameter = readParameter("TESTFILENAME");
-        testfilename = parameter != null ? parameter : "TestFile.txt";
+        testfilename = parameter != null ? parameter : "tests/TestFile.txt";
         parameter = readParameter("TESTFILEENCODING");
         testfileencoding = parameter != null ? parameter : "Cp1251";
         parameter = readParameter("TESTMODE");
@@ -572,8 +571,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
 //            switch (getQuestionType(currentquestion)) {
 //                case PROPER:
 //                    noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_properquestion"));
-//                    if (((ProperChoiceQuestion) currentquestion).getAnswer() != 0)
-//                        checkboxes[((ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
+//                    if (((javafiles.ProperChoiceQuestion) currentquestion).getAnswer() != 0)
+//                        checkboxes[((javafiles.ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
 //                    break;
 //                case TOTAL:
 //                    noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_totalquestion"));
@@ -606,7 +605,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         int[] correctanswers = {1};
         CheckboxGroup cbg = new CheckboxGroup();
         Checkbox[] cbs = new Checkbox[3];
-//        MessageDialog md = new MessageDialog((Frame) getParent().getParent(), resourceBundle.getString("messagedialog_title"), new MultiLineLabel(resourceBundle.getString("messagedialog_note"), MultiLineLabel.CENTER), MessageDialog.OK);
+//        javafiles.MessageDialog md = new javafiles.MessageDialog((Frame) getParent().getParent(), resourceBundle.getString("messagedialog_title"), new javafiles.MultiLineLabel(resourceBundle.getString("messagedialog_note"), javafiles.MultiLineLabel.CENTER), javafiles.MessageDialog.OK);
         MessageDialog md = new MessageDialog(new JFrame(), resourceBundle.getString("messagedialog_title"), new MultiLineLabel(resourceBundle.getString("messagedialog_note"), MultiLineLabel.CENTER), MessageDialog.OK);
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.WEST;

@@ -1,3 +1,5 @@
+package javafiles;
+
 import java.util.ListResourceBundle;
 
 public class Resources_ru_RU extends ListResourceBundle

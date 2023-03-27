@@ -1,3 +1,5 @@
+package javafiles;
+
 public class ProperChoiceQuestion extends ChoiceQuestion {
     private int correctanswer;
     private int answer;

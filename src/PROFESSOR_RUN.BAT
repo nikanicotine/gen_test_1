@@ -1,1 +1,1 @@
-javaw Professor
+javaw javafiles.Professor

@@ -1,3 +1,5 @@
+package javafiles;
+
 import java.util.ListResourceBundle;
 
 public class Resources_en_US extends ListResourceBundle {
@@ -13,7 +15,7 @@ public class Resources_en_US extends ListResourceBundle {
                     {"textfield_mode_learning", "learning"},
                     {"textfield_mode_testing", "testing"},
                     {"textfield_mode_strong", "strong testing"},
-                    {"label_question", "Question"},
+                    {"label_question", "javafiles.Question"},
                     {"label_answer", "Answer"},
                     {"label_answers", "Answers"},
                     {"label_correctanswer", "Correct answer:"},

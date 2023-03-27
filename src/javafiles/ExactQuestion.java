@@ -1,4 +1,4 @@
-//import COM.PIM.JAVA.UTIL.*;
+package javafiles;//import COM.PIM.JAVA.UTIL.*;
 
 public class ExactQuestion extends Question {
     private String[] correctanswer;

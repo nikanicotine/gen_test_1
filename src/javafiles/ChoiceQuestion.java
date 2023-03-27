@@ -1,3 +1,5 @@
+package javafiles;
+
 public abstract class ChoiceQuestion extends Question {
     protected String[] suggestedanswers;
 

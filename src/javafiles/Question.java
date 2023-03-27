@@ -1,3 +1,5 @@
+package javafiles;
+
 public abstract class Question {
     protected String question;
 
