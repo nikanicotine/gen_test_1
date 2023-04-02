@@ -1,4 +1,4 @@
-package javafiles;//package org.pim.psu.studenttest;
+package javafiles;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Professor extends Applet { //TODO JApplet or JFrame or ???
     //applet parameters
-    private String testfilename, testfileencoding, propertiesfilename = "Properties";
+    private String testfilename, testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode, showcorrect;
 
@@ -99,10 +99,10 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
     private void readResources() {
         switch (language) {
             case RUSSIAN:
-                resourceBundle = ResourceBundle.getBundle("Resources", new Locale("ru", "RU"));
+                resourceBundle = ResourceBundle.getBundle("javafiles.Resources", new Locale("ru", "RU"));
                 break;
             case ENGLISH:
-                resourceBundle = ResourceBundle.getBundle("Resources", new Locale("en", "US"));
+                resourceBundle = ResourceBundle.getBundle("javafiles.Resources", new Locale("en", "US"));
                 break;
         }
     }
