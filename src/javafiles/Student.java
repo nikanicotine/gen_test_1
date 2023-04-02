@@ -49,7 +49,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     }
 
     public static void main(String[] args) {
-        int width = 400, height = 500;
+        int width = 500, height = 625;
         JDialog Student = new JDialog(new JFrame(), "Test");
         Student test = new Student();
         Student.addWindowListener(new WindowAdapter() {
@@ -59,8 +59,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             }
         });
         Student.setMinimumSize(new Dimension(300, 400));
-//        javafiles.Student.setSize(400, 500);
-//        javafiles.Student.setMaximumSize(new Dimension(800, 600)); // TODO ?
+//      Student.setSize(400, 500);
+//      Student.setMaximumSize(new Dimension(800, 600)); // TODO ?
         Student.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1.0;
@@ -68,14 +68,12 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         c.fill = GridBagConstraints.BOTH;
         Student.add(test, c);
         Student.pack();
-//        test.initEditor();
         test.initTest();
         Insets di = Student.getInsets();
         Student.setSize(di.left + width + di.right, di.top + height + di.bottom);
         Dimension ds = Student.getToolkit().getScreenSize(), dd = Student.getSize();
         Student.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
         Student.setVisible(true);
-//        javafiles.Student.show();
     }
 
     public void init() {
@@ -170,15 +168,19 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         testButton = new JButton(resourceBundle.getString("button_test"));
         testButton.setActionCommand("start test");
         testButton.addActionListener(al);
+
         prevButton = new JButton(resourceBundle.getString("button_prev"));
         prevButton.setActionCommand("prev");
         prevButton.addActionListener(al);
+
         nextButton = new JButton(resourceBundle.getString("button_next"));
         nextButton.setActionCommand("next");
         nextButton.addActionListener(al);
+
         resultButton = new JButton(resourceBundle.getString("button_result"));
         resultButton.setActionCommand("result");
         resultButton.addActionListener(al);
+
         greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
 //        greetingTextArea.setLineWrap(true); // TODO дает странныый "эффект"
@@ -186,24 +188,26 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
 //        greetingTextArea.setMinimumSize();
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
+        answersPanel.setBackground(Color.red); // TODO поможет выявить размер, потом УДАЛИТЬ
+
         buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2));
+        buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2)); //1322
         buttonsPanel.add(prevButton);
         buttonsPanel.add(nextButton);
+
         notePanel = new JPanel();
         notePanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(0, 5, 0, 5); //2222
+        c.insets = new Insets(5, 10, 5, 10); //2222
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1.0;
         notePanel.add(noteLabel, c);
 
         questionTextArea = new JTextArea();
         questionTextArea.setEditable(false);
+        questionTextArea.setBackground(Color.white); // белый по умолчанию
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
-        questionTextArea.setBackground(Color.white); // белый по умолчанию
-//        questionTextArea.setBorder(new LineBorder(Color.lightGray)); // это не надо
         questionTextArea.setMargin(new Insets(10, 10, 10, 10));
 
         UpdateWindow();
@@ -303,7 +307,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         UpdateWindow();
     }
 
-    private void formResult() { // TODO не работает
+    private void formResult() {
         obtainCurrentAnswer();
         int nCorrectAnswers = 0;
         for (int i = 0, n = questionset.size(); i < n; i++)
@@ -451,7 +455,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         GridBagConstraints c = new GridBagConstraints();
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = c.weighty = 1.0;
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         if (this.isAncestorOf(answersPanel)) this.remove(answersPanel);
         if (this.isAncestorOf(buttonsPanel)) this.remove(buttonsPanel);
         if (buttonsPanel.isAncestorOf(resultButton)) buttonsPanel.remove(resultButton);
@@ -476,7 +480,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         this.remove(greetingPanel);
         UpdateWindow();
         c.weighty = 1.0;
-        c.fill = GridBagConstraints.VERTICAL;
+//        c.fill = GridBagConstraints.VERTICAL; // TODO Я БЛЯТЬ НЕНАВИЖУ ЭТУ СУКУ А БЛЯЯ УБЕЙ МЕНЯ, А ПОТОМ УДАЛИ ЭТУ СТРОЧКУ
+        c.fill = GridBagConstraints.BOTH;
         this.add(answersPanel, c);
         c.weighty = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -490,7 +495,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
 //        c.insets = new Insets(10, 10, 5, 10); //2222
-        c.insets = new Insets(2, 2, 2, 2); //2222
+        c.insets = new Insets(0, 10, 10, 10); //2222 я хз что нажо тут
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -565,5 +570,4 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
 
         UpdateWindow();
     }
-
-}//class
+}

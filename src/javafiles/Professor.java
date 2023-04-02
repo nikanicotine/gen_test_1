@@ -12,7 +12,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
     //applet parameters
     private String testfilename, testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
-    private boolean questionsmixer, choicemode, showcorrect;
+    private boolean questionsmixer, choicemode;
 
     private final int RUSSIAN = 1, ENGLISH = 2;
     private final int LEARNING = 0, TESTING = 1, STRONG = 2;
@@ -24,8 +24,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
             answerLabel = new JLabel(),
             noteLabel = new JLabel(),
             correctanswerLabel = new JLabel();
-//    private JTextField name = new JTextField();
-//    private JTextField group = new JTextField();
     private JTextField[] answerTextField;
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton,
@@ -53,13 +51,14 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         JOptionPane.showMessageDialog(null, s);
         this.setVisible(true);
     }
+
     private void UpdateWindow() {
         this.repaint();
     }
 
     public static void main(String[] args) {
-        int width = 400, height = 500;
-        JDialog professor = new JDialog(new JFrame(), "javafiles.Question redactor");
+        int width = 500, height = 625;
+        JDialog professor = new JDialog(new JFrame(), "Question redactor");
         Professor test = new Professor();
         professor.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -80,7 +79,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         professor.setSize(di.left + width + di.right, di.top + height + di.bottom);
         Dimension ds = professor.getToolkit().getScreenSize(), dd = professor.getSize();
         professor.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
-//        professor.show();
         professor.setVisible(true);
     }
 
@@ -146,10 +144,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
             public synchronized void actionPerformed(ActionEvent e) {
                 String actionCommand = e.getActionCommand();
                 while (true) {
-//                    if (actionCommand.equals("test")) {
-//                        startTest();
-//                        break;
-//                    }
                     if (actionCommand.equals("prev")) {
                         prevButtonPushed();
                         break;
@@ -158,34 +152,29 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
                         nextButtonPushed();
                         break;
                     }
-//                    if (actionCommand.equals("result")) {
-//                        formResult();
-//                        break;
-//                    }
                     break;
                 }
             }
         };
-//        testButton = new JButton(resourceBundle.getString("button_test"));
-//        testButton.setActionCommand("test");
-//        testButton.addActionListener(al);
         prevButton = new JButton(resourceBundle.getString("button_prev"));
         prevButton.setActionCommand("prev");
         prevButton.addActionListener(al);
+
         nextButton = new JButton(resourceBundle.getString("button_next"));
         nextButton.setActionCommand("next");
         nextButton.addActionListener(al);
-//        resultButton = new JButton(resourceBundle.getString("button_result"));
-//        resultButton.setActionCommand("result");
-//        resultButton.addActionListener(al);
+
         greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
+//        answersPanel.setBackground(Color.red); // TODO поможет выявить размер, потом УДАЛИТЬ
+
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2)); // TODO
         buttonsPanel.add(prevButton);
         buttonsPanel.add(nextButton);
+
         notePanel = new JPanel();
         notePanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -198,6 +187,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         questionTextArea.setBackground(Color.white);
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
+        questionTextArea.setMargin(new Insets(10, 10, 10, 10));
 
         UpdateWindow();
     }
@@ -258,30 +248,39 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         newButton = new JButton(resourceBundle.getString("button_new"));
         newButton.setActionCommand("new");
         newButton.addActionListener(al);
+
         openButton = new JButton(resourceBundle.getString("button_open"));
         openButton.setActionCommand("open");
         openButton.addActionListener(al);
+
         saveButton = new JButton(resourceBundle.getString("button_save"));
         saveButton.setActionCommand("save");
         saveButton.addActionListener(al);
+
         addButton = new JButton(resourceBundle.getString("button_add"));
         addButton.setActionCommand("add");
         addButton.addActionListener(al);
+
         deleteButton = new JButton(resourceBundle.getString("button_delete"));
         deleteButton.setActionCommand("delete");
         deleteButton.addActionListener(al);
+
         editButton = new JButton(resourceBundle.getString("button_edit"));
         editButton.setActionCommand("edit");
         editButton.addActionListener(al);
+
         okButton = new JButton(resourceBundle.getString("button_ok"));
         okButton.setActionCommand("ok");
         okButton.addActionListener(al);
+
         cancelButton = new JButton(resourceBundle.getString("button_cancel"));
         cancelButton.setActionCommand("cancel");
         cancelButton.addActionListener(al);
+
         incButton = new JButton(" + ");
         incButton.setActionCommand("increase");
         incButton.addActionListener(al);
+
         decButton = new JButton(" - ");
         decButton.setActionCommand("decrease");
         decButton.addActionListener(al);
@@ -291,11 +290,13 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         filePanel.add(newButton);
         filePanel.add(openButton);
         filePanel.add(saveButton);
+
         actionsPanel = new JPanel();
         actionsPanel.setLayout(new GridLayout(1, 3, 2, 2));
         actionsPanel.add(addButton);
         actionsPanel.add(deleteButton);
         actionsPanel.add(editButton);
+
         incdecPanel = new JPanel();
         incdecPanel.setLayout(new GridLayout(1, 2, 2, 2));
         incdecPanel.add(incButton);
@@ -325,10 +326,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
 
     private void prevButtonPushed() {
         if (mode == TEST) obtainCurrentAnswer();
-        if (current == questionset.size() - 1) {
-//            if (mode == TEST) buttonsPanel.remove(resultButton);
-            nextButton.setEnabled(true);
-        }
+        if (current == questionset.size() - 1) nextButton.setEnabled(true);
         if (--current == 0) prevButton.setEnabled(false);
         buttonsPanel.validate();
         setQuestion();
@@ -339,10 +337,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
     private void nextButtonPushed() {
         if (mode == TEST) obtainCurrentAnswer();
         if (current++ == 0 && testmode != STRONG) prevButton.setEnabled(true);
-        if (current == questionset.size() - 1) {
-            nextButton.setEnabled(false);
-//            if (mode == TEST) buttonsPanel.add(resultButton);
-        }
+        if (current == questionset.size() - 1) nextButton.setEnabled(false);
         buttonsPanel.validate();
         setQuestion();
 
@@ -395,7 +390,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         c.weighty = 1.0;
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         answersPanel.add(greetingTextArea, c);
         c.weighty = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -568,29 +563,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
                 }
                 answersPanel.add(checkboxes[i], c);
             }
-//            switch (getQuestionType(currentquestion)) {
-//                case PROPER:
-//                    noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_properquestion"));
-//                    if (((javafiles.ProperChoiceQuestion) currentquestion).getAnswer() != 0)
-//                        checkboxes[((javafiles.ProperChoiceQuestion) currentquestion).getAnswer() - 1].setState(true);
-//                    break;
-//                case TOTAL:
-//                    noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_totalquestion"));
-//                    break;
-//            }
         }
-//        if (showcorrect) {
-//            c.weightx = 0.0;
-//            c.fill = GridBagConstraints.NONE;
-//            correctanswerLabel.setText(resourceBundle.getString("label_correctanswer"));
-//            answersPanel.add(correctanswerLabel, c);
-//            c.weightx = 1.0;
-//            c.fill = GridBagConstraints.HORIZONTAL;
-//            answerTextField[0] = new JTextField(currentquestion.getCorrectAnswer());
-//            answerTextField[0].setEditable(false);
-//            answerTextField[0].setBackground(Color.white);
-//            answersPanel.add(answerTextField[0], c);
-//        }
+
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         answersPanel.add(notePanel, c);
@@ -605,7 +579,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         int[] correctanswers = {1};
         CheckboxGroup cbg = new CheckboxGroup();
         Checkbox[] cbs = new Checkbox[3];
-//        javafiles.MessageDialog md = new javafiles.MessageDialog((Frame) getParent().getParent(), resourceBundle.getString("messagedialog_title"), new javafiles.MultiLineLabel(resourceBundle.getString("messagedialog_note"), javafiles.MultiLineLabel.CENTER), javafiles.MessageDialog.OK);
         MessageDialog md = new MessageDialog(new JFrame(), resourceBundle.getString("messagedialog_title"), new MultiLineLabel(resourceBundle.getString("messagedialog_note"), MultiLineLabel.CENTER), MessageDialog.OK);
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.WEST;
