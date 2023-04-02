@@ -40,10 +40,10 @@ public class MessageDialog extends JDialog implements ActionListener {
         add(buttonsPanel, c);
         c.insets = new Insets(0, 2, 0, 2);
         c.gridwidth = GridBagConstraints.RELATIVE;
-        Button button;
+        JButton button;
         for (int i = 0, action = 1; i < 4; i++, action <<= 1) {
             if ((actions & action) != 0) {
-                button = new Button(labeles[i]);
+                button = new JButton(labeles[i]);
                 button.setActionCommand(commands[i]);
                 button.addActionListener(this);
                 buttonsPanel.add(button, c);
