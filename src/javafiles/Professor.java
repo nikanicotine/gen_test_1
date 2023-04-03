@@ -166,6 +166,10 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
 
         greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
+        greetingTextArea.setMargin(new Insets(10, 10, 10, 10));
+        greetingTextArea.setLineWrap(true); // TODO дает странныый "эффект"
+        greetingTextArea.setWrapStyleWord(true);
+
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
 //        answersPanel.setBackground(Color.red); // TODO поможет выявить размер, потом УДАЛИТЬ

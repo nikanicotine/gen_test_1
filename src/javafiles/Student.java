@@ -183,12 +183,12 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
 
         greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
-//        greetingTextArea.setLineWrap(true); // TODO дает странныый "эффект"
-//        greetingTextArea.setWrapStyleWord(true);
-//        greetingTextArea.setMinimumSize();
+        greetingTextArea.setMargin(new Insets(10, 10, 10, 10));
+        greetingTextArea.setLineWrap(true); // TODO дает странныый "эффект"
+        greetingTextArea.setWrapStyleWord(true);
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
-        answersPanel.setBackground(Color.red); // TODO поможет выявить размер, потом УДАЛИТЬ
+//        answersPanel.setBackground(Color.red); // TODO поможет выявить размер, потом УДАЛИТЬ
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2)); //1322
@@ -198,7 +198,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         notePanel = new JPanel();
         notePanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(5, 10, 5, 10); //2222
+//        c.insets = new Insets(5, 10, 5, 10); //2222
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1.0;
         notePanel.add(noteLabel, c);
@@ -233,7 +233,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         userPanel.setLayout(new GridBagLayout());
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.insets = new Insets(10, 10, 0, 10);
+        c.insets = new Insets(5, 10, 0, 10);
         c.anchor = GridBagConstraints.WEST;
         c.gridwidth = GridBagConstraints.RELATIVE;
         userPanel.add(nameLabel, c);

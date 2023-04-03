@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/src/ProperChoiceQuestion.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Resources_ru_RU.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/TestFile.txt" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/nikaTest.txt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/javafiles/ProperChoiceQuestion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/javafiles/ProperChoiceQuestion.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/javafiles/Resources_ru_RU.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/javafiles/Resources_ru_RU.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/tests/TestFile.txt" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/tests/nikaTest.txt" charset="windows-1251" />
     <file url="PROJECT" charset="windows-1251" />
   </component>
 </project>
