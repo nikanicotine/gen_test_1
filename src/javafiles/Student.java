@@ -85,13 +85,13 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         mode = TEST;
         try {
             readParameters(new FileInputStream(propertiesfilename));
-            readTestFile();
+//            readTestFile();
         } catch (Exception e) {
             e.printStackTrace();
             return;
         }
         initTestAWTComponents();
-        newTest();
+        newTestRepaint();
     }
 
     private void readResources() {
@@ -146,6 +146,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
                 String actionCommand = e.getActionCommand();
                 while (true) {
                     if (actionCommand.equals("start test")) {
+                        newTest();
                         startTest();
                         break;
                     }
@@ -327,7 +328,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
                 String actionCommand = e.getActionCommand();
                 while (true) {
                     if (actionCommand.equals("ok")) {
-                        newTest();
+                        newTestRepaint();
                         break;
                     }
                     if (actionCommand.equals("yes")) {
@@ -336,7 +337,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
                         break;
                     }
                     if (actionCommand.equals("no")) {
-                        newTest();
+                        newTestRepaint();
                         break;
                     }
                     break;
@@ -440,12 +441,16 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     }
 
     private void newTest() {
+        readTestFile();
         if (questionsmixer) questionsorder = Utils.randomize(questionset.size());
         else {
             questionsorder = new int[questionset.size()];
             for (int i = 0; i < questionset.size(); i++) questionsorder[i] = i;
         }
         for (int i = 0; i < questionset.size(); i++) ((Question) questionset.elementAt(i)).clearAnswer();
+    }
+
+    private void newTestRepaint() {
         name.setText("");
         name.setEditable(true);
         group.setText("");
@@ -467,6 +472,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     }
 
     private void startTest() {
+//        newTest();
         if (name.getText().equals("") | group.getText().equals("")) return;
         current = 0;
         name.setEditable(false);
