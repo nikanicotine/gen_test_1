@@ -307,8 +307,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         incdecPanel.add(incButton);
         incdecPanel.add(decButton);
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(2, 2, 2, 2);
-        c.insets = new Insets(10, 10, 10, 10);
+        c.insets = new Insets(10, 10, 5, 10);//2222
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -391,12 +390,13 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         if (this.isAncestorOf(buttonsPanel)) this.remove(buttonsPanel);
         answersPanel.removeAll();
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(0, 10, 10, 10); //2222
+        c.insets = new Insets(0, 0, 10, 0); //TODO нижняя норм при 0 10 10 10
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
         answersPanel.add(greetingTextArea, c);
+        c.insets = new Insets(0, 10, 10, 10);
         c.weighty = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         this.add(buttonsPanel, c);
@@ -525,7 +525,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
 //        c.insets = new Insets(2, 2, 2, 2);
-        c.insets = new Insets(10, 10, 10, 10);
+//        c.insets = new Insets(10, 10, 10, 10);
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -661,9 +661,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         buttonsPanel.add(nextButton);
         buttonsPanel.validate();
         if (update) questionset.setElementAt(obtainCurrentQuestion(), current);
-//  answersPanel.remove(notePanel);
         setEditorQuestion(false);
-//  answersPanel.validate();
 
         UpdateWindow();
     }
@@ -701,8 +699,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(current);
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(2, 2, 2, 2);
-        c.insets = new Insets(2, 10, 2, 10);
+        c.insets = new Insets(2, 0, 0, 0); //2222
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -775,8 +772,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         answerTextField[answerTextField.length - 1].setEditable(true);
         answerTextField[answerTextField.length - 1].setBackground(Color.white);
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(2, 2, 2, 2);
-        c.insets = new Insets(2, 10, 2, 10);
+        c.insets = new Insets(2, 0, 0, 0); // 2222
         c.fill = GridBagConstraints.HORIZONTAL;
         if (getQuestionType(currentquestion) == EXACT) {
             c.weightx = 1.0;
@@ -810,13 +806,11 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         if (answerTextField.length == 2) decButton.setEnabled(false);
         Question currentquestion = (Question) questionset.elementAt(current);
         JTextField[] newanswerTextField = new JTextField[answerTextField.length - 1];
-//        for (int i = 0; i < answerTextField.length - 1; i++) newanswerTextField[i] = answerTextField[i];
         System.arraycopy(answerTextField, 0, newanswerTextField, 0, answerTextField.length - 1);
         if (getQuestionType(currentquestion) == EXACT) {
             answersPanel.remove(answerTextField[answerTextField.length - 1]);
         } else {
             Checkbox[] newcheckboxes = new Checkbox[checkboxes.length - 1];
-//            for (int i = 0; i < checkboxes.length - 1; i++) newcheckboxes[i] = checkboxes[i];
             System.arraycopy(checkboxes, 0, newcheckboxes, 0, checkboxes.length - 1);
             if (getQuestionType(currentquestion) == PROPER)
                 if (checkboxes[checkboxes.length - 1].getState())

@@ -188,7 +188,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
         greetingTextArea.setMargin(new Insets(10, 10, 10, 10));
-        greetingTextArea.setLineWrap(true); // TODO дает странныый "эффект"
+        greetingTextArea.setLineWrap(true);
         greetingTextArea.setWrapStyleWord(true);
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
@@ -202,14 +202,13 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         notePanel = new JPanel();
         notePanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(5, 10, 5, 10); //2222
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 1.0;
         notePanel.add(noteLabel, c);
 
         questionTextArea = new JTextArea();
         questionTextArea.setEditable(false);
-        questionTextArea.setBackground(Color.white); // белый по умолчанию
+        questionTextArea.setBackground(Color.white);
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
         questionTextArea.setMargin(new Insets(10, 10, 10, 10));
@@ -482,6 +481,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         nextButton.setEnabled(true);
         if (choicemode) testmode = modeChoice.getSelectedIndex();
         GridBagConstraints c = new GridBagConstraints();
+//        c.insets = new Insets(0, 0, 10, 0); // нижняя норм при 0 10 10 10
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         this.remove(greetingPanel);
@@ -490,6 +490,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
 //        c.fill = GridBagConstraints.VERTICAL; // TODO Я БЛЯТЬ НЕНАВИЖУ ЭТУ СУКУ А БЛЯЯ УБЕЙ МЕНЯ, А ПОТОМ УДАЛИ ЭТУ СТРОЧКУ
         c.fill = GridBagConstraints.BOTH;
         this.add(answersPanel, c);
+        c.insets = new Insets(0, 10, 10, 10);
         c.weighty = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         this.add(buttonsPanel, c);

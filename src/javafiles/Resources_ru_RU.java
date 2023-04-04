@@ -27,7 +27,7 @@ public class Resources_ru_RU extends ListResourceBundle
                     {"button_next","Далее >"},
                     {"button_prev","< Назад"},
                     {"button_result","Результат"},
-                    {"button_test","Начать тест"},
+                    {"button_test","Выбрать тест"},
                     {"button_add","Добавить"},
                     {"button_delete","Удалить"},
                     {"button_edit","Правка"},
