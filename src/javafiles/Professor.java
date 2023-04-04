@@ -33,6 +33,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
     private JTextArea greetingTextArea, questionTextArea;
     private JPanel filePanel, answersPanel, notePanel, actionsPanel, buttonsPanel,
             incdecPanel;
+    private JScrollPane scrollPane;
     private CheckboxGroup checkboxGroup;
     private Checkbox[] checkboxes;
     private Font font;
@@ -57,7 +58,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
     }
 
     public static void main(String[] args) {
-        int width = 500, height = 625;
+        int width = 434, height = 543;
         JDialog professor = new JDialog(new JFrame(), "Question redactor");
         Professor test = new Professor();
         professor.addWindowListener(new WindowAdapter() {
@@ -167,7 +168,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         greetingTextArea = new JTextArea();
         greetingTextArea.setEditable(false);
         greetingTextArea.setMargin(new Insets(10, 10, 10, 10));
-        greetingTextArea.setLineWrap(true); // TODO дает странныый "эффект"
+        greetingTextArea.setLineWrap(true);
         greetingTextArea.setWrapStyleWord(true);
 
         answersPanel = new JPanel();
@@ -710,7 +711,8 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         c.fill = GridBagConstraints.BOTH;
         questionTextArea.setText(currentquestion.getQuestion());
         questionTextArea.setEditable(editable);
-        answersPanel.add(questionTextArea, c);
+        scrollPane = new JScrollPane(questionTextArea);
+        answersPanel.add(scrollPane, c);
         c.weighty = 0.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.fill = GridBagConstraints.NONE;

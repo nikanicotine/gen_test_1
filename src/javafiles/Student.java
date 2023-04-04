@@ -31,6 +31,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     private JTextArea greetingTextArea, questionTextArea;
     private JPanel userPanel, modePanel, greetingPanel,
             answersPanel, notePanel, buttonsPanel;
+    private JScrollPane scrollPane;
     private CheckboxGroup checkboxGroup;
     private Checkbox[] checkboxes;
     private Font font;
@@ -49,7 +50,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     }
 
     public static void main(String[] args) {
-        int width = 500, height = 625;
+        int width = 434, height = 543;
         JDialog Student = new JDialog(new JFrame(), "Test");
         Student test = new Student();
         Student.addWindowListener(new WindowAdapter() {
@@ -503,7 +504,8 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
         questionTextArea.setText(currentquestion.getQuestion());
-        answersPanel.add(questionTextArea, c);
+        scrollPane = new JScrollPane(questionTextArea);
+        answersPanel.add(scrollPane, c);
         c.weighty = 0.0;
         c.fill = GridBagConstraints.NONE;
         answersPanel.add(answerLabel, c);
