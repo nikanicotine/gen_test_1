@@ -49,6 +49,12 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         this.repaint();
     }
 
+    private void ShowMsg(String s) {
+        this.setVisible(true);
+        JOptionPane.showMessageDialog(null, s);
+        this.setVisible(true);
+    }
+
     public static void main(String[] args) {
         int width = 434, height = 543;
         JDialog Student = new JDialog(new JFrame(), "Test");
@@ -60,8 +66,6 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             }
         });
         Student.setMinimumSize(new Dimension(300, 400));
-//      Student.setSize(400, 500);
-//      Student.setMaximumSize(new Dimension(800, 600)); // TODO ?
         Student.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1.0;
@@ -77,15 +81,10 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         Student.setVisible(true);
     }
 
-    public void init() {
-        initTest();
-    }
-
     public void initTest() {
         mode = TEST;
         try {
             readParameters(new FileInputStream(propertiesfilename));
-//            readTestFile();
         } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -137,7 +136,6 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     }
 
     private void initCommonAWTComponents() {
-//        this.setBackground(Color.lightGray); // TODO а зачем это вообще надо?
         this.setBackground(Color.white);
         this.setFont(font = new Font(getFont().getName(), getFont().getStyle(), fontsize));
         this.setLayout(new GridBagLayout());
@@ -145,6 +143,10 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             public synchronized void actionPerformed(ActionEvent e) {
                 String actionCommand = e.getActionCommand();
                 while (true) {
+                    if (name.getText().equals("") | group.getText().equals("")) {
+                        ShowMsg("Введите имя студента и группу");
+                        break;
+                    }
                     if (actionCommand.equals("start test")) {
                         newTest();
                         startTest();
@@ -472,8 +474,6 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     }
 
     private void startTest() {
-//        newTest();
-        if (name.getText().equals("") | group.getText().equals("")) return;
         current = 0;
         name.setEditable(false);
         group.setEditable(false);
