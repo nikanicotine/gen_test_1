@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-public class Professor extends Applet { //TODO JApplet or JFrame or ???
+public class Professor extends Applet {
     //applet parameters
     private String testfilename, testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
@@ -19,7 +19,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
     private final int OTHER = 0, EXACT = 1, PROPER = 2, TOTAL = 3;
     private final int TEST = 0, EDITOR = 1;
 
-    //AWT elements
+    //SWING elements
     private JLabel questionLabel,
             answerLabel = new JLabel(),
             noteLabel = new JLabel(),
@@ -118,8 +118,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
             return;
         }
         String parameter;
-        parameter = readParameter("TESTFILENAME");
-        testfilename = parameter != null ? parameter : "tests/TestFile.txt";
         parameter = readParameter("TESTFILEENCODING");
         testfileencoding = parameter != null ? parameter : "Cp1251";
         parameter = readParameter("TESTMODE");
@@ -173,7 +171,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
 
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
-//        answersPanel.setBackground(Color.red); // TODO поможет выявить размер, потом УДАЛИТЬ
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2)); // TODO
@@ -420,11 +417,15 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
     }
 
     private void openTest() {
+        newEditor();
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showOpenDialog(null);
         File f = fc.getSelectedFile();
-
+        if (f == null) {
+            ShowMsg("Вы не выбрали тест!");
+            return;
+        }
         try {
             ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
             ArrayList<String> arr = (ArrayList<String>) ois.readObject();
@@ -524,8 +525,6 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(2, 2, 2, 2);
-//        c.insets = new Insets(10, 10, 10, 10);
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -718,7 +717,7 @@ public class Professor extends Applet { //TODO JApplet or JFrame or ???
         String[] suggestedanswers;
         if (getQuestionType(currentquestion) == EXACT) {
             answerLabel.setText(resourceBundle.getString("label_answer") + ":");
-            suggestedanswers = Utils.stringTokenizer(((ExactQuestion) currentquestion).getCorrectAnswer(), "|");
+            suggestedanswers = Utils.stringTokenizer(currentquestion.getCorrectAnswer(), "|");
             decButton.setEnabled(suggestedanswers.length != 1);
             answerTextField = new JTextField[suggestedanswers.length];
             for (int i = 0; i < suggestedanswers.length; i++) {

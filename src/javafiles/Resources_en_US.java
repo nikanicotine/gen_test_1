@@ -15,7 +15,7 @@ public class Resources_en_US extends ListResourceBundle {
                     {"textfield_mode_learning", "learning"},
                     {"textfield_mode_testing", "testing"},
                     {"textfield_mode_strong", "strong testing"},
-                    {"label_question", "javafiles.Question"},
+                    {"label_question", "Question"},
                     {"label_answer", "Answer"},
                     {"label_answers", "Answers"},
                     {"label_correctanswer", "Correct answer:"},
@@ -39,10 +39,11 @@ public class Resources_en_US extends ListResourceBundle {
                     {"button_ok", "OK"},
                     {"button_cancel", "Cancel"},
                     {"textarea_greeting_test", "1. Enter your name and group number" + "\n" +
-                            "2. Push \"Test\" button" + "\n" +
-                            "3. Choose correct answer" + "\n" +
-                            "4. Using \"< Prev\" and \"Next >\" buttons pass the test entirely" + "\n" +
-                            "5. \"Result\" button lets watch out your results"},
+                            "2. Push \"Start test\" button" + "\n" +
+                            "3. Choose test file" + "\n" +
+                            "4. Choose correct answer" + "\n" +
+                            "5. Using \"< Prev\" and \"Next >\" buttons pass the test entirely" + "\n" +
+                            "6. \"Result\" button lets watch out your results"},
                     {"textarea_greeting_edit", "1. Button \"Open\" - open existed test" + "\n" +
                             "2. Button \"Save\" - save test" + "\n" +
                             "3. Button \"New\" - new test" + "\n" +

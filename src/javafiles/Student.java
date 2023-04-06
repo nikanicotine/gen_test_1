@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-public class Student extends JApplet { //TODO JApplet or JFrame or ???
+public class Student extends JApplet {
     //applet parameters
     private String testfilename, testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
@@ -18,7 +18,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     private final int OTHER = 0, EXACT = 1, PROPER = 2, TOTAL = 3;
     private final int TEST = 0, EDITOR = 1;
 
-    //AWT elements
+    //SWING elements
     private JLabel nameLabel, groupLabel, modeLabel, questionLabel,
             answerLabel = new JLabel(),
             noteLabel = new JLabel(),
@@ -27,7 +27,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     private JTextField group = new JTextField();
     private JTextField[] answerTextField;
     private Choice modeChoice = new Choice();
-    private JButton prevButton, nextButton, resultButton, testButton, openButton;
+    private JButton prevButton, nextButton, resultButton, testButton;
     private JTextArea greetingTextArea, questionTextArea;
     private JPanel userPanel, modePanel, greetingPanel,
             answersPanel, notePanel, buttonsPanel;
@@ -116,8 +116,6 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
             return;
         }
         String parameter;
-//        parameter = readParameter("TESTFILENAME");
-//        testfilename = parameter != null ? parameter : "TestFile.txt";
         parameter = readParameter("TESTFILEENCODING");
         testfileencoding = parameter != null ? parameter : "Cp1251";
         parameter = readParameter("TESTMODE");
@@ -192,7 +190,6 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         greetingTextArea.setWrapStyleWord(true);
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
-//        answersPanel.setBackground(Color.red); // TODO поможет выявить размер, потом УДАЛИТЬ
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2)); //1322
@@ -390,7 +387,11 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showOpenDialog(null);
         File f = fc.getSelectedFile();
-
+        if (f == null) {
+            ShowMsg("Вы не выбрали тест!");
+            questionset.removeAllElements();
+            return;
+        }
         try {
             ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(f)));
             ArrayList<String> arr = (ArrayList<String>) ois.readObject();
@@ -473,6 +474,7 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
     }
 
     private void startTest() {
+        if (questionset.isEmpty()) return;
         current = 0;
         name.setEditable(false);
         group.setEditable(false);
@@ -487,7 +489,6 @@ public class Student extends JApplet { //TODO JApplet or JFrame or ???
         this.remove(greetingPanel);
         UpdateWindow();
         c.weighty = 1.0;
-//        c.fill = GridBagConstraints.VERTICAL; // TODO Я БЛЯТЬ НЕНАВИЖУ ЭТУ СУКУ А БЛЯЯ УБЕЙ МЕНЯ, А ПОТОМ УДАЛИ ЭТУ СТРОЧКУ
         c.fill = GridBagConstraints.BOTH;
         this.add(answersPanel, c);
         c.insets = new Insets(0, 10, 10, 10);
