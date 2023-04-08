@@ -1,0 +1,13 @@
+WIDTH=434
+HEIGHT=543
+FONTSIZE=14
+TESTFILENAME=nikaTest.bin
+TESTFILEENCODING=Cp1251
+#Cp1251,KOI8_R,Cp866
+TESTMODE=forchoice
+#learning,testing,strong,forchoice
+QUESTIONSMIXER=true
+#true,false
+LANGUAGE=ru
+#en,ru
+

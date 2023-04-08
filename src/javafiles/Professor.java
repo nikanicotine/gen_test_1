@@ -484,6 +484,10 @@ public class Professor extends Applet {
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showSaveDialog(null);
         File f = fc.getSelectedFile();
+        if (f == null) {
+            ShowMsg("Вы не сохранили тест!");
+            return;
+        }
         ArrayList<String> arr = new ArrayList<String>();
 
         Question currentquestion;
