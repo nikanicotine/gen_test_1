@@ -25,10 +25,12 @@ public class Student extends JApplet {
             correctanswerLabel = new JLabel();
     private JTextField name = new JTextField();
     private JTextField group = new JTextField();
-    private JTextField[] answerTextField;
+//    private JTextField[] answerTextField;
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton, resultButton, testButton;
-    private JTextArea greetingTextArea, questionTextArea;
+    private JTextArea greetingTextArea;
+    private JTextArea questionTextArea;
+    private JTextArea[] answerTextField;
     private JPanel userPanel, modePanel, greetingPanel,
             answersPanel, notePanel, buttonsPanel;
     private JScrollPane scrollPane;
@@ -227,7 +229,7 @@ public class Student extends JApplet {
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_testing"), TESTING);
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_strong"), STRONG);
         greetingTextArea.setText(resourceBundle.getString("textarea_greeting_test"));
-        answerTextField = new JTextField[1];
+        answerTextField = new JTextArea[1];
         //Panels
         userPanel = new JPanel();
         userPanel.setLayout(new GridBagLayout());
@@ -520,8 +522,8 @@ public class Student extends JApplet {
         c.fill = GridBagConstraints.HORIZONTAL;
         if (getQuestionType(currentquestion) == EXACT) {
             answerLabel.setText(resourceBundle.getString("label_answer") + ":");
-            answerTextField[0] = new JTextField(((ExactQuestion) currentquestion).getAnswer());
-            answerTextField[0].setBackground(Color.white);
+            answerTextField[0] = new JTextArea(((ExactQuestion) currentquestion).getAnswer());
+            answerTextField[0].setBackground(Color.white); // TODO а оно вообще работает?
             answersPanel.add(answerTextField[0], c);
             noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
         } else {
@@ -567,7 +569,7 @@ public class Student extends JApplet {
             answersPanel.add(correctanswerLabel, c);
             c.weightx = 1.0;
             c.fill = GridBagConstraints.HORIZONTAL;
-            answerTextField[0] = new JTextField(currentquestion.getCorrectAnswer());
+            answerTextField[0] = new JTextArea(currentquestion.getCorrectAnswer());
             answerTextField[0].setEditable(false);
             answerTextField[0].setBackground(Color.white);
             answersPanel.add(answerTextField[0], c);
