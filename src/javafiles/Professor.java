@@ -419,6 +419,7 @@ public class Professor extends Applet {
     private void openTest() {
         newEditor();
         JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("../tests/Properties"));
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showOpenDialog(null);
         File f = fc.getSelectedFile();
@@ -480,6 +481,7 @@ public class Professor extends Applet {
 
     private void saveTest() {
         JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("../tests/Properties"));
         fc.setDialogTitle("Сохранение теста");
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showSaveDialog(null);

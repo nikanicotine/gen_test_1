@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Student extends JApplet {
     //applet parameters
-    private String testfilename, testfileencoding, propertiesfilename = "../tests/Properties";
+    private String testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode, showcorrect;
 
@@ -208,7 +208,7 @@ public class Student extends JApplet {
         questionTextArea.setBackground(Color.white);
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
-        questionTextArea.setMargin(new Insets(10, 10, 10, 10));
+        questionTextArea.setMargin(new Insets(10, 10, 0, 10));
 
         UpdateWindow();
     }
@@ -383,6 +383,7 @@ public class Student extends JApplet {
 
     private void readTestFile() {
         JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("../tests/Properties"));
         fc.setDialogTitle("Выберите файл теста");
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showOpenDialog(null);
@@ -503,10 +504,9 @@ public class Student extends JApplet {
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(10, 10, 5, 10); //2222
         c.insets = new Insets(0, 10, 10, 10); //2222 я хз что нажо тут
         c.weightx = 1.0;
-        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridwidth = GridBagConstraints.REMAINDER; // не трогать
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
         answersPanel.add(questionLabel, c);
         c.weighty = 1.0;
@@ -524,7 +524,7 @@ public class Student extends JApplet {
             answerTextField[0].setBackground(Color.white);
             answerTextField[0].setLineWrap(true);
             answerTextField[0].setWrapStyleWord(true);
-            answerTextField[0].setMargin(new Insets(10, 10, 10, 10));
+            answerTextField[0].setMargin(new Insets(5, 10, 5, 10));
             answersPanel.add(answerTextField[0], c);
             noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
         } else {
@@ -533,18 +533,17 @@ public class Student extends JApplet {
             checkboxGroup = new CheckboxGroup();
             checkboxes = new Checkbox[suggestedanswers.length];
             for (int i = 0; i < suggestedanswers.length; i++) {
-//                c.insets = new Insets(0, 5, 0, 5); //2222
                 c.weightx = 1.0;
-                c.gridwidth = GridBagConstraints.RELATIVE;
+                c.gridwidth = GridBagConstraints.RELATIVE; // не трогать
                 JTextArea textField = new JTextArea(suggestedanswers[i]);
                 textField.setEditable(false);
                 textField.setBackground(Color.white);
                 textField.setLineWrap(true);
                 textField.setWrapStyleWord(true);
-                textField.setMargin(new Insets(10, 10, 10, 10));
+                textField.setMargin(new Insets(5, 10, 5, 10));
                 answersPanel.add(textField, c);
                 c.weightx = 0.0;
-                c.gridwidth = GridBagConstraints.REMAINDER;
+                c.gridwidth = GridBagConstraints.REMAINDER; // не трогать
                 switch (getQuestionType(currentquestion)) {
                     case PROPER:
                         checkboxes[i] = new Checkbox(Integer.toString(i + 1), false, checkboxGroup);
@@ -572,18 +571,19 @@ public class Student extends JApplet {
             correctanswerLabel.setText(resourceBundle.getString("label_correctanswer"));
             answersPanel.add(correctanswerLabel, c);
             c.weightx = 1.0;
-            c.fill = GridBagConstraints.HORIZONTAL;
+            c.fill = GridBagConstraints.HORIZONTAL; // не трогать
             answerTextField[0] = new JTextArea(currentquestion.getCorrectAnswer());
 
             answerTextField[0].setEditable(false);
             answerTextField[0].setBackground(Color.white);
             answerTextField[0].setLineWrap(true);
             answerTextField[0].setWrapStyleWord(true);
-            answerTextField[0].setMargin(new Insets(10, 10, 10, 10));
+            answerTextField[0].setMargin(new Insets(5, 10, 5, 10));
             answersPanel.add(answerTextField[0], c);
         }
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
+//        c.gridwidth = GridBagConstraints.; // TODO что-то ту
         answersPanel.add(notePanel, c);
         answersPanel.validate();
         answersPanel.repaint();
