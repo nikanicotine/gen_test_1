@@ -25,7 +25,7 @@ public class Student extends JApplet {
             correctanswerLabel = new JLabel();
     private JTextField name = new JTextField();
     private JTextField group = new JTextField();
-    private JTextField[] answerTextField;
+    private JTextArea[] answerTextField;
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton, resultButton, testButton;
     private JTextArea greetingTextArea, questionTextArea;
@@ -227,7 +227,7 @@ public class Student extends JApplet {
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_testing"), TESTING);
         modeChoice.insert(" " + resourceBundle.getString("textfield_mode_strong"), STRONG);
         greetingTextArea.setText(resourceBundle.getString("textarea_greeting_test"));
-        answerTextField = new JTextField[1];
+        answerTextField = new JTextArea[1];
         //Panels
         userPanel = new JPanel();
         userPanel.setLayout(new GridBagLayout());
@@ -520,8 +520,11 @@ public class Student extends JApplet {
         c.fill = GridBagConstraints.HORIZONTAL;
         if (getQuestionType(currentquestion) == EXACT) {
             answerLabel.setText(resourceBundle.getString("label_answer") + ":");
-            answerTextField[0] = new JTextField(((ExactQuestion) currentquestion).getAnswer());
+            answerTextField[0] = new JTextArea(((ExactQuestion) currentquestion).getAnswer());
             answerTextField[0].setBackground(Color.white);
+            answerTextField[0].setLineWrap(true);
+            answerTextField[0].setWrapStyleWord(true);
+            answerTextField[0].setMargin(new Insets(10, 10, 10, 10));
             answersPanel.add(answerTextField[0], c);
             noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
         } else {
@@ -533,9 +536,12 @@ public class Student extends JApplet {
 //                c.insets = new Insets(0, 5, 0, 5); //2222
                 c.weightx = 1.0;
                 c.gridwidth = GridBagConstraints.RELATIVE;
-                JTextField textField = new JTextField(suggestedanswers[i]);
+                JTextArea textField = new JTextArea(suggestedanswers[i]);
                 textField.setEditable(false);
                 textField.setBackground(Color.white);
+                textField.setLineWrap(true);
+                textField.setWrapStyleWord(true);
+                textField.setMargin(new Insets(10, 10, 10, 10));
                 answersPanel.add(textField, c);
                 c.weightx = 0.0;
                 c.gridwidth = GridBagConstraints.REMAINDER;
@@ -567,9 +573,13 @@ public class Student extends JApplet {
             answersPanel.add(correctanswerLabel, c);
             c.weightx = 1.0;
             c.fill = GridBagConstraints.HORIZONTAL;
-            answerTextField[0] = new JTextField(currentquestion.getCorrectAnswer());
+            answerTextField[0] = new JTextArea(currentquestion.getCorrectAnswer());
+
             answerTextField[0].setEditable(false);
             answerTextField[0].setBackground(Color.white);
+            answerTextField[0].setLineWrap(true);
+            answerTextField[0].setWrapStyleWord(true);
+            answerTextField[0].setMargin(new Insets(10, 10, 10, 10));
             answersPanel.add(answerTextField[0], c);
         }
         c.weightx = 1.0;
