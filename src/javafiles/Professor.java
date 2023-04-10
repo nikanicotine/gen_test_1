@@ -558,7 +558,7 @@ public class Professor extends JDialog {
             for (int i = 0; i < suggestedanswers.length; i++) {
                 c.weightx = 1.0;
                 c.gridwidth = GridBagConstraints.RELATIVE;
-                JTextField textField = new JTextField(suggestedanswers[i]);
+                JTextArea textField = new JTextArea(suggestedanswers[i]);
                 textField.setEditable(false);
                 textField.setBackground(Color.white);
                 answersPanel.add(textField, c);
@@ -705,7 +705,7 @@ public class Professor extends JDialog {
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(current);
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(2, 0, 0, 0); //2222
+        c.insets = new Insets(5, 0, 0, 0); //2222 не трогать
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -784,7 +784,7 @@ public class Professor extends JDialog {
         answerTextField[answerTextField.length - 1].setEditable(true);
         answerTextField[answerTextField.length - 1].setBackground(Color.white);
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(2, 0, 0, 0); // 2222
+        c.insets = new Insets(5, 0, 0, 0); // 2222
         c.fill = GridBagConstraints.HORIZONTAL;
         if (getQuestionType(currentquestion) == EXACT) {
             c.weightx = 1.0;
