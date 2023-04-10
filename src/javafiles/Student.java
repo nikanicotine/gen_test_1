@@ -7,9 +7,10 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-public class Student extends JApplet {
+public class Student extends JDialog {
     //applet parameters
-    private String testfileencoding, propertiesfilename = "../tests/Properties";
+    private String testfileencoding, propertiesfilename = "tests/Properties";
+    //private String testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode, showcorrect;
 
@@ -57,28 +58,30 @@ public class Student extends JApplet {
 
     public static void main(String[] args) {
         int width = 434, height = 543;
-        JDialog Student = new JDialog(new JFrame(), "Test");
+//        JDialog student = new JDialog(new JFrame(), "Test");
         Student test = new Student();
-        Student.addWindowListener(new WindowAdapter() {
+        test.setTitle("Test");
+        test.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
                 System.exit(0);
             }
         });
-        Student.setMinimumSize(new Dimension(300, 400));
-        Student.setLayout(new GridBagLayout());
+        test.setMinimumSize(new Dimension(300, 400));
+        test.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
-        Student.add(test, c);
-        Student.pack();
+//        test.setVisible(true);
+//        student.add(test, c);
+        test.pack();
         test.initTest();
-        Insets di = Student.getInsets();
-        Student.setSize(di.left + width + di.right, di.top + height + di.bottom);
-        Dimension ds = Student.getToolkit().getScreenSize(), dd = Student.getSize();
-        Student.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
-        Student.setVisible(true);
+        Insets di = test.getInsets();
+        test.setSize(di.left + width + di.right, di.top + height + di.bottom);
+        Dimension ds = test.getToolkit().getScreenSize(), dd = test.getSize();
+        test.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
+        test.setVisible(true);
     }
 
     public void initTest() {

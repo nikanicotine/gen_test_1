@@ -8,9 +8,9 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-public class Professor extends Applet {
+public class Professor extends JDialog {
     //applet parameters
-    private String testfilename, testfileencoding, propertiesfilename = "../tests/Properties";
+    private String testfilename, testfileencoding, propertiesfilename = "tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode;
 
@@ -59,8 +59,8 @@ public class Professor extends Applet {
 
     public static void main(String[] args) {
         int width = 434, height = 543;
-        JDialog professor = new JDialog(new JFrame(), "Question redactor");
-        Professor test = new Professor();
+//        JDialog professor = new JDialog(new JFrame(), "Question redactor");
+        Professor professor = new Professor();
         professor.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
@@ -73,9 +73,9 @@ public class Professor extends Applet {
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
-        professor.add(test, c);
+//        professor.add(professor, c);
         professor.pack();
-        test.initEditor();
+        professor.initEditor();
         Insets di = professor.getInsets();
         professor.setSize(di.left + width + di.right, di.top + height + di.bottom);
         Dimension ds = professor.getToolkit().getScreenSize(), dd = professor.getSize();
