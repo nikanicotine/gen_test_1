@@ -211,7 +211,7 @@ public class Student extends JDialog {
         questionTextArea.setBackground(Color.white);
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
-        questionTextArea.setMargin(new Insets(10, 10, 0, 10));
+        questionTextArea.setMargin(new Insets(10, 10, 10, 10));
 
         UpdateWindow();
     }
@@ -436,7 +436,7 @@ public class Student extends JDialog {
                         }
                         break;
                     default:
-                        question.append("\r\n" + str);
+                        question.append("\r" + str);
                 }
             }
         } catch (Exception e) {

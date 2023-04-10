@@ -24,7 +24,7 @@ public class Professor extends JDialog {
             answerLabel = new JLabel(),
             noteLabel = new JLabel(),
             correctanswerLabel = new JLabel();
-    private JTextField[] answerTextField;
+    private JTextArea[] answerTextField;
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton,
             addButton, deleteButton, editButton,
@@ -61,6 +61,7 @@ public class Professor extends JDialog {
         int width = 434, height = 543;
 //        JDialog professor = new JDialog(new JFrame(), "Question redactor");
         Professor professor = new Professor();
+        professor.setTitle("Question redactor");
         professor.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
@@ -468,7 +469,7 @@ public class Professor extends JDialog {
                         }
                         break;
                     default:
-                        question.append("\r\n").append(str);
+                        question.append("\r").append(str);
                 }
             }
             startEditor();
@@ -497,12 +498,12 @@ public class Professor extends JDialog {
 
         for (int i = 0, n = questionset.size(); i < n; i++) {
             currentquestion = (Question) questionset.elementAt(i);
-            arr.add("?" + currentquestion.getQuestion() + "\r\n");
+            arr.add("?" + currentquestion.getQuestion() + "\r");
             if (currentquestion instanceof ChoiceQuestion) {
                 suggestedAnswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
-                for (String suggestedAnswer : suggestedAnswers) arr.add("#" + suggestedAnswer + "\r\n");
+                for (String suggestedAnswer : suggestedAnswers) arr.add("#" + suggestedAnswer + "\r");
             }
-            arr.add("!" + currentquestion.getCorrectAnswer() + "\r\n");
+            arr.add("!" + currentquestion.getCorrectAnswer() + "\r");
         }
         try (ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(f)))) {
             oos.writeObject(arr);
@@ -545,7 +546,7 @@ public class Professor extends JDialog {
         c.fill = GridBagConstraints.HORIZONTAL;
         if (getQuestionType(currentquestion) == EXACT) {
             answerLabel.setText(resourceBundle.getString("label_answer") + ":");
-            answerTextField[0] = new JTextField(((ExactQuestion) currentquestion).getAnswer());
+            answerTextField[0] = new JTextArea(((ExactQuestion) currentquestion).getAnswer());
             answerTextField[0].setBackground(Color.white);
             answersPanel.add(answerTextField[0], c);
             noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
@@ -725,26 +726,32 @@ public class Professor extends JDialog {
             answerLabel.setText(resourceBundle.getString("label_answer") + ":");
             suggestedanswers = Utils.stringTokenizer(currentquestion.getCorrectAnswer(), "|");
             decButton.setEnabled(suggestedanswers.length != 1);
-            answerTextField = new JTextField[suggestedanswers.length];
+            answerTextField = new JTextArea[suggestedanswers.length];
             for (int i = 0; i < suggestedanswers.length; i++) {
-                answerTextField[i] = new JTextField(suggestedanswers[i].trim());
+                answerTextField[i] = new JTextArea(suggestedanswers[i].trim());
                 answerTextField[i].setEditable(editable);
                 answerTextField[i].setBackground(Color.white);
+                answerTextField[i].setLineWrap(true);
+                answerTextField[i].setWrapStyleWord(true);
+                answerTextField[i].setMargin(new Insets(5, 10, 5, 10));
                 answersPanel.add(answerTextField[i], c);
             }
         } else {
             answerLabel.setText(resourceBundle.getString("label_answers") + ":");
             suggestedanswers = ((ChoiceQuestion) currentquestion).getSuggestedAnswers();
             decButton.setEnabled(suggestedanswers.length != 1);
-            answerTextField = new JTextField[suggestedanswers.length];
+            answerTextField = new JTextArea[suggestedanswers.length];
             checkboxGroup = new CheckboxGroup();
             checkboxes = new Checkbox[suggestedanswers.length];
             for (int i = 0; i < suggestedanswers.length; i++) {
                 c.weightx = 1.0;
                 c.gridwidth = GridBagConstraints.RELATIVE;
-                answerTextField[i] = new JTextField(suggestedanswers[i].trim());
+                answerTextField[i] = new JTextArea(suggestedanswers[i].trim());
                 answerTextField[i].setEditable(editable);
                 answerTextField[i].setBackground(Color.white);
+                answerTextField[i].setLineWrap(true);
+                answerTextField[i].setWrapStyleWord(true);
+                answerTextField[i].setMargin(new Insets(5, 10, 5, 10));
                 answersPanel.add(answerTextField[i], c);
                 c.weightx = 0.0;
                 c.gridwidth = GridBagConstraints.REMAINDER;
@@ -770,10 +777,10 @@ public class Professor extends JDialog {
     private void addAnswer() {
         if (answerTextField.length == 1) decButton.setEnabled(true);
         Question currentquestion = (Question) questionset.elementAt(current);
-        JTextField[] newanswerTextField = new JTextField[answerTextField.length + 1];
+        JTextArea[] newanswerTextField = new JTextArea[answerTextField.length + 1];
         System.arraycopy(answerTextField, 0, newanswerTextField, 0, answerTextField.length);
         answerTextField = newanswerTextField;
-        answerTextField[answerTextField.length - 1] = new JTextField();
+        answerTextField[answerTextField.length - 1] = new JTextArea();
         answerTextField[answerTextField.length - 1].setEditable(true);
         answerTextField[answerTextField.length - 1].setBackground(Color.white);
         GridBagConstraints c = new GridBagConstraints();
@@ -810,7 +817,7 @@ public class Professor extends JDialog {
     private void deleteAnswer() {
         if (answerTextField.length == 2) decButton.setEnabled(false);
         Question currentquestion = (Question) questionset.elementAt(current);
-        JTextField[] newanswerTextField = new JTextField[answerTextField.length - 1];
+        JTextArea[] newanswerTextField = new JTextArea[answerTextField.length - 1];
         System.arraycopy(answerTextField, 0, newanswerTextField, 0, answerTextField.length - 1);
         if (getQuestionType(currentquestion) == EXACT) {
             answersPanel.remove(answerTextField[answerTextField.length - 1]);
