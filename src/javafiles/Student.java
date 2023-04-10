@@ -311,6 +311,7 @@ public class Student extends JDialog {
     }
 
     private void formResult() {
+        buttonsPanel.remove(resultButton);
         obtainCurrentAnswer();
         int nCorrectAnswers = 0;
         for (int i = 0, n = questionset.size(); i < n; i++)
@@ -575,6 +576,7 @@ public class Student extends JDialog {
             answersPanel.add(correctanswerLabel, c);
             c.weightx = 1.0;
             c.fill = GridBagConstraints.HORIZONTAL; // не трогать
+            JTextArea temp = answerTextField[0];
             answerTextField[0] = new JTextArea(currentquestion.getCorrectAnswer());
 
             answerTextField[0].setEditable(false);
@@ -583,6 +585,7 @@ public class Student extends JDialog {
             answerTextField[0].setWrapStyleWord(true);
             answerTextField[0].setMargin(new Insets(5, 10, 5, 10));
             answersPanel.add(answerTextField[0], c);
+            answerTextField[0] = temp;
         }
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
