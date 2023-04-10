@@ -6,7 +6,7 @@ TESTFILEENCODING=Cp1251
 #Cp1251,KOI8_R,Cp866
 TESTMODE=forchoice
 #learning,testing,strong,forchoice
-QUESTIONSMIXER=true
+QUESTIONSMIXER=false
 #true,false
 LANGUAGE=ru
 #en,ru

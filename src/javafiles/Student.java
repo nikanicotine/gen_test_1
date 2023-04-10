@@ -7,9 +7,10 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-public class Student extends JApplet {
+public class Student extends JDialog {
     //applet parameters
-    private String testfilename, testfileencoding, propertiesfilename = "../tests/Properties";
+    private String testfileencoding, propertiesfilename = "tests/Properties";
+    //private String testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode, showcorrect;
 
@@ -25,12 +26,10 @@ public class Student extends JApplet {
             correctanswerLabel = new JLabel();
     private JTextField name = new JTextField();
     private JTextField group = new JTextField();
-//    private JTextField[] answerTextField;
+    private JTextArea[] answerTextField;
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton, resultButton, testButton;
-    private JTextArea greetingTextArea;
-    private JTextArea questionTextArea;
-    private JTextArea[] answerTextField;
+    private JTextArea greetingTextArea, questionTextArea;
     private JPanel userPanel, modePanel, greetingPanel,
             answersPanel, notePanel, buttonsPanel;
     private JScrollPane scrollPane;
@@ -59,28 +58,30 @@ public class Student extends JApplet {
 
     public static void main(String[] args) {
         int width = 434, height = 543;
-        JDialog Student = new JDialog(new JFrame(), "Test");
+//        JDialog student = new JDialog(new JFrame(), "Test");
         Student test = new Student();
-        Student.addWindowListener(new WindowAdapter() {
+        test.setTitle("Test");
+        test.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();
                 System.exit(0);
             }
         });
-        Student.setMinimumSize(new Dimension(300, 400));
-        Student.setLayout(new GridBagLayout());
+        test.setMinimumSize(new Dimension(300, 400));
+        test.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
-        Student.add(test, c);
-        Student.pack();
+//        test.setVisible(true);
+//        student.add(test, c);
+        test.pack();
         test.initTest();
-        Insets di = Student.getInsets();
-        Student.setSize(di.left + width + di.right, di.top + height + di.bottom);
-        Dimension ds = Student.getToolkit().getScreenSize(), dd = Student.getSize();
-        Student.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
-        Student.setVisible(true);
+        Insets di = test.getInsets();
+        test.setSize(di.left + width + di.right, di.top + height + di.bottom);
+        Dimension ds = test.getToolkit().getScreenSize(), dd = test.getSize();
+        test.setLocation((ds.width - dd.width) / 2, (ds.height - dd.height) / 2);
+        test.setVisible(true);
     }
 
     public void initTest() {
@@ -385,6 +386,7 @@ public class Student extends JApplet {
 
     private void readTestFile() {
         JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("../tests/Properties"));
         fc.setDialogTitle("Выберите файл теста");
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showOpenDialog(null);
@@ -434,7 +436,7 @@ public class Student extends JApplet {
                         }
                         break;
                     default:
-                        question.append("\r\n" + str);
+                        question.append("\r" + str);
                 }
             }
         } catch (Exception e) {
@@ -505,10 +507,9 @@ public class Student extends JApplet {
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(10, 10, 5, 10); //2222
         c.insets = new Insets(0, 10, 10, 10); //2222 я хз что нажо тут
         c.weightx = 1.0;
-        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.gridwidth = GridBagConstraints.REMAINDER; // не трогать
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
         answersPanel.add(questionLabel, c);
         c.weighty = 1.0;
@@ -523,7 +524,10 @@ public class Student extends JApplet {
         if (getQuestionType(currentquestion) == EXACT) {
             answerLabel.setText(resourceBundle.getString("label_answer") + ":");
             answerTextField[0] = new JTextArea(((ExactQuestion) currentquestion).getAnswer());
-            answerTextField[0].setBackground(Color.white); // TODO а оно вообще работает?
+            answerTextField[0].setBackground(Color.white);
+            answerTextField[0].setLineWrap(true);
+            answerTextField[0].setWrapStyleWord(true);
+            answerTextField[0].setMargin(new Insets(5, 10, 5, 10));
             answersPanel.add(answerTextField[0], c);
             noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
         } else {
@@ -532,15 +536,17 @@ public class Student extends JApplet {
             checkboxGroup = new CheckboxGroup();
             checkboxes = new Checkbox[suggestedanswers.length];
             for (int i = 0; i < suggestedanswers.length; i++) {
-//                c.insets = new Insets(0, 5, 0, 5); //2222
                 c.weightx = 1.0;
-                c.gridwidth = GridBagConstraints.RELATIVE;
-                JTextField textField = new JTextField(suggestedanswers[i]);
+                c.gridwidth = GridBagConstraints.RELATIVE; // не трогать
+                JTextArea textField = new JTextArea(suggestedanswers[i]);
                 textField.setEditable(false);
                 textField.setBackground(Color.white);
+                textField.setLineWrap(true);
+                textField.setWrapStyleWord(true);
+                textField.setMargin(new Insets(5, 10, 5, 10));
                 answersPanel.add(textField, c);
                 c.weightx = 0.0;
-                c.gridwidth = GridBagConstraints.REMAINDER;
+                c.gridwidth = GridBagConstraints.REMAINDER; // не трогать
                 switch (getQuestionType(currentquestion)) {
                     case PROPER:
                         checkboxes[i] = new Checkbox(Integer.toString(i + 1), false, checkboxGroup);
@@ -568,14 +574,19 @@ public class Student extends JApplet {
             correctanswerLabel.setText(resourceBundle.getString("label_correctanswer"));
             answersPanel.add(correctanswerLabel, c);
             c.weightx = 1.0;
-            c.fill = GridBagConstraints.HORIZONTAL;
+            c.fill = GridBagConstraints.HORIZONTAL; // не трогать
             answerTextField[0] = new JTextArea(currentquestion.getCorrectAnswer());
+
             answerTextField[0].setEditable(false);
             answerTextField[0].setBackground(Color.white);
+            answerTextField[0].setLineWrap(true);
+            answerTextField[0].setWrapStyleWord(true);
+            answerTextField[0].setMargin(new Insets(5, 10, 5, 10));
             answersPanel.add(answerTextField[0], c);
         }
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
+//        c.gridwidth = GridBagConstraints.; // TODO что-то ту
         answersPanel.add(notePanel, c);
         answersPanel.validate();
         answersPanel.repaint();
