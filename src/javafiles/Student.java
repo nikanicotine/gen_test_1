@@ -8,9 +8,8 @@ import java.io.*;
 import java.util.*;
 
 public class Student extends JDialog {
-    //applet parameters
+    // parameters
     private String testfileencoding, propertiesfilename = "./tests/Properties";
-//    private String testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode, showcorrect;
 
@@ -490,7 +489,7 @@ public class Student extends JDialog {
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
         this.add(answersPanel, c);
-        c.insets = new Insets(0, 10, 10, 10); // не трогать
+        c.insets = new Insets(0, 10, 10, 10);
         c.weighty = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         this.add(buttonsPanel, c);
@@ -502,9 +501,9 @@ public class Student extends JDialog {
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(0, 10, 5, 10); // не трогать
+        c.insets = new Insets(0, 10, 5, 10);
         c.weightx = 1.0;
-        c.gridwidth = GridBagConstraints.REMAINDER; // не трогать
+        c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
         answersPanel.add(questionLabel, c);
         c.weighty = 1.0;
@@ -533,7 +532,7 @@ public class Student extends JDialog {
             checkboxes = new Checkbox[suggestedanswers.length];
             for (int i = 0; i < suggestedanswers.length; i++) {
                 c.weightx = 1.0;
-                c.gridwidth = GridBagConstraints.RELATIVE; // не трогать
+                c.gridwidth = GridBagConstraints.RELATIVE;
                 JTextArea textField = new JTextArea(suggestedanswers[i]);
                 textField.setEditable(false);
                 textField.setBackground(Color.white);
@@ -542,7 +541,7 @@ public class Student extends JDialog {
                 textField.setMargin(new Insets(5, 10, 5, 10));
                 answersPanel.add(textField, c);
                 c.weightx = 0.0;
-                c.gridwidth = GridBagConstraints.REMAINDER; // не трогать
+                c.gridwidth = GridBagConstraints.REMAINDER;
                 switch (getQuestionType(currentquestion)) {
                     case PROPER:
                         checkboxes[i] = new Checkbox(Integer.toString(i + 1), false, checkboxGroup);
@@ -570,7 +569,7 @@ public class Student extends JDialog {
             correctanswerLabel.setText(resourceBundle.getString("label_correctanswer"));
             answersPanel.add(correctanswerLabel, c);
             c.weightx = 1.0;
-            c.fill = GridBagConstraints.HORIZONTAL; // не трогать
+            c.fill = GridBagConstraints.HORIZONTAL;
             JTextArea temp = answerTextField[0];
             answerTextField[0] = new JTextArea(currentquestion.getCorrectAnswer());
 

@@ -8,8 +8,7 @@ import java.io.*;
 import java.util.*;
 
 public class Professor extends JDialog {
-    //applet parameters
-//    private String testfileencoding, propertiesfilename = "../tests/Properties";
+    // parameters
     private String testfileencoding, propertiesfilename = "./tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode;
@@ -169,7 +168,6 @@ public class Professor extends JDialog {
 
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
-//        answersPanel.setBackground(Color.red);
 
         buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2));
@@ -303,7 +301,7 @@ public class Professor extends JDialog {
         incdecPanel.add(incButton);
         incdecPanel.add(decButton);
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(10, 10, 5, 10);//2222
+        c.insets = new Insets(10, 10, 5, 10);
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -379,14 +377,13 @@ public class Professor extends JDialog {
         }
     }
 
-
     private void newEditor() {
         questionset = new Vector();
         current = 0;
         if (this.isAncestorOf(buttonsPanel)) this.remove(buttonsPanel);
         answersPanel.removeAll();
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(0, 0, 10, 0); //TODO нижняя норм при 0 10 10 10
+        c.insets = new Insets(0, 0, 10, 0);
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         c.weighty = 1.0;
@@ -530,7 +527,6 @@ public class Professor extends JDialog {
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(0, 10, 10, 10); //2222
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -708,7 +704,7 @@ public class Professor extends JDialog {
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(current);
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(5, 0, 0, 0); //2222 не трогать
+        c.insets = new Insets(5, 0, 0, 0);
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -791,7 +787,7 @@ public class Professor extends JDialog {
         answerTextField[answerTextField.length - 1].setWrapStyleWord(true);
         answerTextField[answerTextField.length - 1].setMargin(new Insets(5, 10, 5, 10));
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(5, 0, 0, 0); // 2222
+        c.insets = new Insets(5, 0, 0, 0);
         c.fill = GridBagConstraints.HORIZONTAL;
         if (getQuestionType(currentquestion) == EXACT) {
             c.weightx = 1.0;
