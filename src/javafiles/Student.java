@@ -9,8 +9,8 @@ import java.util.*;
 
 public class Student extends JDialog {
     //applet parameters
-    //private String testfileencoding, propertiesfilename = "tests/Properties";
-    private String testfileencoding, propertiesfilename = "../tests/Properties";
+    private String testfileencoding, propertiesfilename = "./tests/Properties";
+//    private String testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode, showcorrect;
 
@@ -306,7 +306,6 @@ public class Student extends JDialog {
     }
 
     private void formResult() {
-        buttonsPanel.remove(resultButton);
         obtainCurrentAnswer();
         int nCorrectAnswers = 0;
         for (int i = 0, n = questionset.size(); i < n; i++)
@@ -342,6 +341,7 @@ public class Student extends JDialog {
             }
         };
         md.addActionListener(al);
+        buttonsPanel.remove(resultButton);
         showMessageDialog(md);
     }
 
@@ -382,7 +382,7 @@ public class Student extends JDialog {
 
     private void readTestFile() {
         JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new File("../tests/Properties"));
+        fc.setCurrentDirectory(new File("./tests/Properties"));
         fc.setDialogTitle("Выберите файл теста");
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showOpenDialog(null);

@@ -9,7 +9,8 @@ import java.util.*;
 
 public class Professor extends JDialog {
     //applet parameters
-    private String testfileencoding, propertiesfilename = "../tests/Properties";
+//    private String testfileencoding, propertiesfilename = "../tests/Properties";
+    private String testfileencoding, propertiesfilename = "./tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode;
 
@@ -417,7 +418,7 @@ public class Professor extends JDialog {
     private void openTest() {
         newEditor();
         JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new File("../tests/Properties"));
+        fc.setCurrentDirectory(new File("./tests/Properties"));
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showOpenDialog(null);
         File f = fc.getSelectedFile();
@@ -479,7 +480,7 @@ public class Professor extends JDialog {
 
     private void saveTest() {
         JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(new File("../tests/Properties"));
+        fc.setCurrentDirectory(new File("./tests/Properties"));
         fc.setDialogTitle("Сохранение теста");
         fc.setFileFilter(new FileNameExtensionFilter("Binary Files", "bin"));
         fc.showSaveDialog(null);
