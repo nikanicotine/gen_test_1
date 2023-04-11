@@ -2,7 +2,6 @@ package javafiles;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -10,7 +9,7 @@ import java.util.*;
 
 public class Professor extends JDialog {
     //applet parameters
-    private String testfilename, testfileencoding, propertiesfilename = "tests/Properties";
+    private String testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode;
 
@@ -24,13 +23,13 @@ public class Professor extends JDialog {
             answerLabel = new JLabel(),
             noteLabel = new JLabel(),
             correctanswerLabel = new JLabel();
-    private JTextArea[] answerTextField;
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton,
             addButton, deleteButton, editButton,
             newButton, openButton, saveButton,
             okButton, cancelButton, incButton, decButton;
     private JTextArea greetingTextArea, questionTextArea;
+    private JTextArea[] answerTextField;
     private JPanel filePanel, answersPanel, notePanel, actionsPanel, buttonsPanel,
             incdecPanel;
     private JScrollPane scrollPane;
@@ -59,7 +58,6 @@ public class Professor extends JDialog {
 
     public static void main(String[] args) {
         int width = 434, height = 543;
-//        JDialog professor = new JDialog(new JFrame(), "Question redactor");
         Professor professor = new Professor();
         professor.setTitle("Question redactor");
         professor.addWindowListener(new WindowAdapter() {
@@ -74,7 +72,6 @@ public class Professor extends JDialog {
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
-//        professor.add(professor, c);
         professor.pack();
         professor.initEditor();
         Insets di = professor.getInsets();
@@ -137,7 +134,6 @@ public class Professor extends JDialog {
     }
 
     private void initCommonAWTComponents() {
-//        this.setBackground(Color.lightGray); // лучше всего без цвета, бозовый серый
         this.setFont(font = new Font(getFont().getName(), getFont().getStyle(), fontsize));
         this.setLayout(new GridBagLayout());
         ActionListener al = new ActionListener() {
@@ -172,9 +168,10 @@ public class Professor extends JDialog {
 
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
+//        answersPanel.setBackground(Color.red);
 
         buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2)); // TODO
+        buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2));
         buttonsPanel.add(prevButton);
         buttonsPanel.add(nextButton);
 
@@ -532,6 +529,7 @@ public class Professor extends JDialog {
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
+//        c.insets = new Insets(0, 10, 10, 10); //2222
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -548,6 +546,7 @@ public class Professor extends JDialog {
             answerLabel.setText(resourceBundle.getString("label_answer") + ":");
             answerTextField[0] = new JTextArea(((ExactQuestion) currentquestion).getAnswer());
             answerTextField[0].setBackground(Color.white);
+
             answersPanel.add(answerTextField[0], c);
             noteLabel.setText(resourceBundle.getString("label_note") + " " + resourceBundle.getString("label_note_exactquestion"));
         } else {
@@ -561,6 +560,9 @@ public class Professor extends JDialog {
                 JTextArea textField = new JTextArea(suggestedanswers[i]);
                 textField.setEditable(false);
                 textField.setBackground(Color.white);
+                textField.setLineWrap(true);
+                textField.setWrapStyleWord(true);
+                textField.setMargin(new Insets(5, 10, 5, 10));
                 answersPanel.add(textField, c);
                 c.weightx = 0.0;
                 c.gridwidth = GridBagConstraints.REMAINDER;
@@ -716,6 +718,7 @@ public class Professor extends JDialog {
         questionTextArea.setEditable(editable);
         scrollPane = new JScrollPane(questionTextArea);
         answersPanel.add(scrollPane, c);
+        scrollPane.setBorder(null);
         c.weighty = 0.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.fill = GridBagConstraints.NONE;
@@ -783,6 +786,9 @@ public class Professor extends JDialog {
         answerTextField[answerTextField.length - 1] = new JTextArea();
         answerTextField[answerTextField.length - 1].setEditable(true);
         answerTextField[answerTextField.length - 1].setBackground(Color.white);
+        answerTextField[answerTextField.length - 1].setLineWrap(true);
+        answerTextField[answerTextField.length - 1].setWrapStyleWord(true);
+        answerTextField[answerTextField.length - 1].setMargin(new Insets(5, 10, 5, 10));
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 0, 0, 0); // 2222
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -835,4 +841,4 @@ public class Professor extends JDialog {
         answersPanel.validate();
         UpdateWindow();
     }
-}//class
+}

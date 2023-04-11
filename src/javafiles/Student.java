@@ -9,8 +9,8 @@ import java.util.*;
 
 public class Student extends JDialog {
     //applet parameters
-    private String testfileencoding, propertiesfilename = "tests/Properties";
-    //private String testfileencoding, propertiesfilename = "../tests/Properties";
+    //private String testfileencoding, propertiesfilename = "tests/Properties";
+    private String testfileencoding, propertiesfilename = "../tests/Properties";
     private int testmode, language, fontsize, mode;
     private boolean questionsmixer, choicemode, showcorrect;
 
@@ -26,10 +26,10 @@ public class Student extends JDialog {
             correctanswerLabel = new JLabel();
     private JTextField name = new JTextField();
     private JTextField group = new JTextField();
-    private JTextArea[] answerTextField;
     private Choice modeChoice = new Choice();
     private JButton prevButton, nextButton, resultButton, testButton;
     private JTextArea greetingTextArea, questionTextArea;
+    private JTextArea[] answerTextField;
     private JPanel userPanel, modePanel, greetingPanel,
             answersPanel, notePanel, buttonsPanel;
     private JScrollPane scrollPane;
@@ -58,7 +58,6 @@ public class Student extends JDialog {
 
     public static void main(String[] args) {
         int width = 434, height = 543;
-//        JDialog student = new JDialog(new JFrame(), "Test");
         Student test = new Student();
         test.setTitle("Test");
         test.addWindowListener(new WindowAdapter() {
@@ -73,8 +72,6 @@ public class Student extends JDialog {
         c.weightx = 1.0;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
-//        test.setVisible(true);
-//        student.add(test, c);
         test.pack();
         test.initTest();
         Insets di = test.getInsets();
@@ -191,11 +188,12 @@ public class Student extends JDialog {
         greetingTextArea.setMargin(new Insets(10, 10, 10, 10));
         greetingTextArea.setLineWrap(true);
         greetingTextArea.setWrapStyleWord(true);
+
         answersPanel = new JPanel();
         answersPanel.setLayout(new GridBagLayout());
 
         buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2)); //1322
+        buttonsPanel.setLayout(new GridLayout(1, 3, 2, 2));
         buttonsPanel.add(prevButton);
         buttonsPanel.add(nextButton);
 
@@ -256,7 +254,6 @@ public class Student extends JDialog {
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridwidth = GridBagConstraints.REMAINDER;
-//        c.insets = new Insets(2, 0, 5, 2);
         c.insets = new Insets(0, 10, 10, 10);
         modePanel.add(modeChoice, c);
 
@@ -265,14 +262,12 @@ public class Student extends JDialog {
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         c.weighty = 1.0;
-//        c.insets = new Insets(5, 5, 0, 5);
         c.insets = new Insets(5, 10, 0, 10);
         c.fill = GridBagConstraints.BOTH;
         greetingPanel.add(greetingTextArea, c);
         c = new GridBagConstraints();
         c.ipadx = 10;
         c.insets = new Insets(5, 0, 5, 0);
-//        c.insets = new Insets(15, 0, 15, 0);
         greetingPanel.add(testButton, c);
         //Window
         c.gridwidth = GridBagConstraints.REMAINDER;
@@ -488,7 +483,6 @@ public class Student extends JDialog {
         nextButton.setEnabled(true);
         if (choicemode) testmode = modeChoice.getSelectedIndex();
         GridBagConstraints c = new GridBagConstraints();
-//        c.insets = new Insets(0, 0, 10, 0); // нижняя норм при 0 10 10 10
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.weightx = 1.0;
         this.remove(greetingPanel);
@@ -496,7 +490,7 @@ public class Student extends JDialog {
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
         this.add(answersPanel, c);
-        c.insets = new Insets(0, 10, 10, 10);
+        c.insets = new Insets(0, 10, 10, 10); // не трогать
         c.weighty = 0.0;
         c.fill = GridBagConstraints.HORIZONTAL;
         this.add(buttonsPanel, c);
@@ -508,7 +502,7 @@ public class Student extends JDialog {
         answersPanel.removeAll();
         Question currentquestion = (Question) questionset.elementAt(questionsorder[current]);
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(0, 10, 10, 10); //2222 я хз что нажо тут
+        c.insets = new Insets(0, 10, 5, 10); // не трогать
         c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER; // не трогать
         questionLabel = new JLabel(resourceBundle.getString("label_question") + ": " + Integer.toString(current + 1));
@@ -518,6 +512,7 @@ public class Student extends JDialog {
         questionTextArea.setText(currentquestion.getQuestion());
         scrollPane = new JScrollPane(questionTextArea);
         answersPanel.add(scrollPane, c);
+        scrollPane.setBorder(null);
         c.weighty = 0.0;
         c.fill = GridBagConstraints.NONE;
         answersPanel.add(answerLabel, c);
@@ -589,7 +584,6 @@ public class Student extends JDialog {
         }
         c.weightx = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
-//        c.gridwidth = GridBagConstraints.; // TODO что-то ту
         answersPanel.add(notePanel, c);
         answersPanel.validate();
         answersPanel.repaint();
