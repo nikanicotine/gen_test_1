@@ -55,10 +55,20 @@ public class Student extends JDialog {
         this.setVisible(true);
     }
 
+    Student(JFrame wframe){
+        super(wframe);
+    }
+
     public static void main(String[] args) {
         int width = 434, height = 543;
-        Student test = new Student();
+        JFrame j_frame = new JFrame();
+        j_frame.setUndecorated(true);
+        j_frame.setVisible(true);
+        j_frame.setLocationRelativeTo(null);
+        j_frame.setIconImage(Toolkit.getDefaultToolkit().getImage("./tests/icon.png"));
+        Student test = new Student(j_frame);
         test.setTitle("Test");
+        
         test.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 e.getWindow().dispose();

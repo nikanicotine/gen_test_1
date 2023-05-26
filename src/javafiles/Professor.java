@@ -56,9 +56,18 @@ public class Professor extends JDialog {
         this.repaint();
     }
 
+    Professor(JFrame wframe){
+        super(wframe);
+    }
+
     public static void main(String[] args) {
         int width = 434, height = 543;
-        Professor professor = new Professor();
+        JFrame j_frame = new JFrame();
+        j_frame.setUndecorated(true);
+        j_frame.setVisible(true);
+        j_frame.setLocationRelativeTo(null);
+        j_frame.setIconImage(Toolkit.getDefaultToolkit().getImage("./tests/icon.png"));
+        Professor professor = new Professor(j_frame);
         professor.setTitle("Question redactor");
         professor.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
